@@ -1,0 +1,49 @@
+<template>
+  <div id="app">
+    <custom-header/>
+    <div class="columns">
+      <div class="column is-3">
+        <side-menu/>
+      </div>
+      <div class="column is-7">
+        <div class="columns is-multiline">
+          <project-card/>
+          <project-card/>
+          <project-card/>
+          <project-card/>
+          <project-card/>
+          <project-card/>
+          <project-card/>
+        </div>
+      </div>
+    </div>
+    <img src="./assets/logo.png">
+    <router-view/>
+  </div>
+</template>
+
+<script>
+import CustomHeader from '@/components/layout/Header'
+import SideMenu from '@/components/app/SideMenu'
+import ProjectCard from '@/components/cards/Project'
+
+export default {
+  name: 'App',
+  components: {
+    CustomHeader,
+    SideMenu,
+    ProjectCard
+  }
+}
+</script>
+
+<style lang="scss">
+@import '@/assets/sass/app.scss';
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+</style>
