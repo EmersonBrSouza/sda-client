@@ -14,5 +14,12 @@
             <li><a><b-icon icon="plus-circle"/> <span>Convidar Membros</span></a></li>
             <li><a><b-icon icon="list"/> <span>Ver Membros</span></a></li>
         </ul>
+        <p class="menu-label">
+            Estatísticas
+        </p>
+        <ul class="menu-list">
+            <li><a><b-icon icon="chart-line"/> <span>Visualizações</span></a></li>
+            <li><a><b-icon icon="history"/> <span>Histórico de Edições</span></a></li>
+        </ul>
     </aside>
 </template>

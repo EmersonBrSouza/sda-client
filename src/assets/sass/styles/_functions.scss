@@ -1,0 +1,21 @@
+@function getDirection($letter){
+  @if $letter == t {
+    @return top;
+  }@else if $letter == b{
+    @return bottom;
+  }@else if $letter == r{
+    @return right;
+  }@else if $letter == l{
+    @return left;
+  }
+}
+
+@function getContext($tag){
+  @if $tag == sm {
+    @return smartphone;
+  }@else if $tag == md{
+    @return tablet;
+  }@else if $tag == lg{
+    @return desktop;
+  }
+}

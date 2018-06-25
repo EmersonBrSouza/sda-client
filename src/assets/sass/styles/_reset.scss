@@ -1,0 +1,22 @@
+html,body{
+    font-family: 'Catamaran',sans-serif !important;
+	color:#000;
+    height: 100vh;
+    min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+footer{
+    padding-bottom: 3rem !important;
+}
+
+.flex-grow{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+label{
+    float: left;
+}

@@ -1,7 +1,104 @@
-.mr-10{
-    margin-right: 10px;
+$letters: t b l r;
+$contexts: sm md lg;
+$values: 0 10 15 30 60 90 180;
+
+/*
+  General Margins configurations
+*/
+@each $letter in $letters{
+  @each $value in $values{
+    .m#{$letter}-#{$value}{
+      @include mobile{margin-#{getDirection($letter)}: #{$value}px;}
+    }
+  }
 }
 
-.ph-15{
-    padding: 0px 15px
+@each $letter in $letters{
+  @each $context in $contexts{
+    @each $value in $values{
+      .m#{$letter}-#{$context}-#{$value}{
+        @if $context == sm {
+          @include smartphone{margin-#{getDirection($letter)}: #{$value}px;}
+        }@else if $context == md{
+          @include tablet{margin-#{getDirection($letter)}: #{$value}px;}
+        }@else if $context == lg{
+          @include desktop{margin-#{getDirection($letter)}: #{$value}px;}
+        }
+      }
+    }
+  }
 }
+
+/*
+  General Padding configurations
+*/
+@each $letter in $letters{
+  @each $value in $values{
+    .p#{$letter}-#{$value}{
+      @include mobile{padding-#{getDirection($letter)}: #{$value}px;}
+    }
+  }
+}
+
+@each $letter in $letters{
+  @each $context in $contexts{
+    @each $value in $values{
+      .p#{$letter}-#{$context}-#{$value}{
+        @if $context == sm {
+          @include smartphone{padding-#{getDirection($letter)}: #{$value}px;}
+        }@else if $context == md{
+          @include tablet{padding-#{getDirection($letter)}: #{$value}px;}
+        }@else if $context == lg{
+          @include desktop{padding-#{getDirection($letter)}: #{$value}px;}
+        }
+      }
+    }
+  }
+}
+
+
+/*
+  Vertical Padding configurations
+*/
+@each $value in $values{
+  .pv-#{$value}{
+    @include mobile{padding-bottom: #{$value}px;padding-top: #{$value}px;}
+  }
+}
+
+@each $context in $contexts{
+  @each $value in $values{
+    .pv-#{$context}-#{$value}{
+      @if $context == sm {
+        @include smartphone{padding-bottom: #{$value}px;padding-top: #{$value}px;}
+      }@else if $context == md{
+        @include tablet{padding-bottom: #{$value}px;padding-top: #{$value}px;}
+      }@else if $context == lg{
+        @include desktop{padding-bottom: #{$value}px;padding-top: #{$value}px;}
+      }
+    }
+  }
+}
+
+/*
+  Horizontal Padding configurations
+*/
+@each $value in $values{
+    .ph-#{$value}{
+      @include mobile{padding-left: #{$value}px;padding-right: #{$value}px;}
+    }
+  }
+  
+  @each $context in $contexts{
+    @each $value in $values{
+      .ph-#{$context}-#{$value}{
+        @if $context == sm {
+          @include smartphone{padding-left: #{$value}px;padding-right: #{$value}px;}
+        }@else if $context == md{
+          @include tablet{padding-left: #{$value}px;padding-right: #{$value}px;}
+        }@else if $context == lg{
+          @include desktop{padding-left: #{$value}px;padding-right: #{$value}px;}
+        }
+      }
+    }
+  }

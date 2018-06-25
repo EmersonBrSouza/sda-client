@@ -2,23 +2,10 @@
   <div id="app">
     <custom-header/>
     <div class="columns">
-      <div class="column is-3">
-        <side-menu/>
-      </div>
-      <div class="column is-7">
-        <div class="columns is-multiline">
-          <project-card/>
-          <project-card/>
-          <project-card/>
-          <project-card/>
-          <project-card/>
-          <project-card/>
-          <project-card/>
-        </div>
+      <div class="column is-12">
+        <router-view/>
       </div>
     </div>
-    <img src="./assets/logo.png">
-    <router-view/>
   </div>
 </template>
 
@@ -43,7 +30,6 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
 </style>

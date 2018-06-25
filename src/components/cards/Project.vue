@@ -6,7 +6,7 @@
                     <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
                 </figure>
             </div>
-            <div class="card-content bg-test">
+            <div class="card-content">
                 <div class="media">
                     <div class="media-content">
                         <p class="title is-5">Título do Texto</p>
@@ -23,9 +23,3 @@
         </div>
     </div>
 </template>
-
-<style>
-    .bg-test{
-        background-color:blue;
-    }
-</style>

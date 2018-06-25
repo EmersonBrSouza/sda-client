@@ -23,10 +23,10 @@
                             </button>
                         </p>
                         <p class="control">
-                            <button class="button is-warning">
+                            <router-link class="button is-warning" :to="{ name: 'register'}">
                                 <b-icon icon="user-circle"></b-icon>
                                 <span>Criar Conta</span>
-                            </button>
+                            </router-link>
                         </p>
                     </div>
                 </div>
@@ -36,17 +36,16 @@
 </template>
 
 <script>
-/* eslint-disable*/
 export default {
-    data(){
-      return {
-        isActive: true
-      }
-    },
-    methods:{
-      toggleMenu(){
-        this.isActive = !this.isActive;
-      }
+  data () {
+    return {
+      isActive: true
     }
+  },
+  methods: {
+    toggleMenu () {
+      this.isActive = !this.isActive
+    }
+  }
 }
 </script>
