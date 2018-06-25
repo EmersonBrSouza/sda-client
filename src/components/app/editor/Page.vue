@@ -15,12 +15,11 @@ export default {
     //   default: 'editor'
     // }
     selected: {
-      default: true,
+      default: false,
       type: Boolean
     }
   },
   mounted () {
-    this.$emit('page_cre')
     this.initialize()
     this.$emit('page_created', {
       quill: this.quill,
@@ -32,7 +31,7 @@ export default {
       var options = {
         placeholder: 'Compose an epic...',
         formats: [
-          'align'
+          'align', 'bold'
         ]
       }
       this.quill = new Quill(this.$refs.editor, options)
@@ -46,6 +45,7 @@ export default {
   .page{
     max-width: 794px;
     min-height: 1123px;
+    max-height: 1123px;
     border: none;
     margin-left: auto;
     margin-right: auto;
@@ -56,15 +56,14 @@ export default {
   }
   .ql-editor{
     min-height: inherit;
-    &.ql-blank::before {
-      color: rgba(0,0,0,0.6);
-      content: attr(data-placeholder);
-      font-style: italic;
-      top: 25px;
-      left: 15px;
-      pointer-events: none;
-      position: relative;
-      right: 15px;
-    }
+    // &.ql-blank::before {
+    //   color: rgba(0,0,0,0.6);
+    //   content: attr(data-placeholder);
+    //   font-style: italic;
+    //   left: 15px;
+    //   pointer-events: none;
+    //   position: relative;
+    //   right: 15px;
+    // }
   }
 </style>

@@ -8,7 +8,7 @@ $values: 0 10 15 30 60 90 180;
 @each $letter in $letters{
   @each $value in $values{
     .m#{$letter}-#{$value}{
-      @include mobile{margin-#{getDirection($letter)}: #{$value}px;}
+      @include mobile{margin-#{getDirection($letter)}: #{$value}px !important;}
     }
   }
 }
@@ -18,11 +18,11 @@ $values: 0 10 15 30 60 90 180;
     @each $value in $values{
       .m#{$letter}-#{$context}-#{$value}{
         @if $context == sm {
-          @include smartphone{margin-#{getDirection($letter)}: #{$value}px;}
+          @include smartphone{margin-#{getDirection($letter)}: #{$value}px !important;}
         }@else if $context == md{
-          @include tablet{margin-#{getDirection($letter)}: #{$value}px;}
+          @include tablet{margin-#{getDirection($letter)}: #{$value}px !important;}
         }@else if $context == lg{
-          @include desktop{margin-#{getDirection($letter)}: #{$value}px;}
+          @include desktop{margin-#{getDirection($letter)}: #{$value}px !important;}
         }
       }
     }
