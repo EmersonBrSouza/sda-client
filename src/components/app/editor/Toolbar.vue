@@ -57,7 +57,7 @@
             </div>
           </div>
         </div>
-        <div class="column is-3 pl-10">
+        <div class="column is-2 pl-10">
           <div class="columns is-multiline">
             <div class="column is-12 pb-0 mb-10">
               <span class="label menu-label">Cor</span>
@@ -65,6 +65,18 @@
             <div class="column is-12 pt-0">
               <button class="button">
                 <b-icon icon="palette"></b-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="column is-1 pl-10">
+          <div class="columns is-multiline">
+            <div class="column is-12 pb-0 pl-0 mb-10">
+              <span class="label menu-label">PDF</span>
+            </div>
+            <div class="column is-12 pt-0 pl-0">
+              <button class="button">
+                <b-icon icon="download"></b-icon>
               </button>
             </div>
           </div>
