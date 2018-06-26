@@ -7,8 +7,8 @@
       <div class="columns mt-10 bg-document">
         <div class="column is-1"></div>
         <div class="column is-10">
-          <div class="toolbar"></div>
-          <page v-for="page in pages" :key="page.index" :selected="page.selected"/>
+          <div class="toolbar"><button @click="createPage"> Nova Página </button></div>
+          <page v-for="page in pages" :key="page.index" :selected="page.selected" :index="page.index"  @click.native="selectQuill(page.index)"/>
         </div>
       </div>
     </div>
@@ -18,28 +18,18 @@
 <script>
 import Page from './editor/Page'
 import Toolbar from './editor/Toolbar'
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   components: {
     Page,
     Toolbar
   },
-  data () {
-    return {
-      pages: [{ index: 1, selected: true, quill: null, ref: `page${this.index}` }]
-    }
-  },
-  mounted () {
-    let vm = this
-    vm.$on('page_created', function (payload) {
-      if (vm.pages.length === 1) {
-        vm.pages[0].quill = payload.quill
-      }
-    })
+  computed: {
+    ...mapGetters(['quill', 'pages'])
   },
   methods: {
-    newPage () {
-      this.pages.push({index: 2, selected: false, quill: null, ref: `page${this.index}`})
-    }
+    ...mapActions(['selectQuill', 'createPage'])
   }
 }
 </script>

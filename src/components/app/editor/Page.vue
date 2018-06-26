@@ -1,30 +1,29 @@
 <template>
-  <div class="page mt-15" :class="{'selected':selected}" ref="editor">
+  <div class="page mt-15" :class="{'selected':selected}" :ref="`quill${index}`">
   </div>
 </template>
 
 <script>
 import IQuill from 'quill'
+import { mapActions, mapGetters } from 'vuex'
 const Quill = IQuill
 
 export default {
   props: {
-    // quillRef: {
-    //   type: String,
-    //   required: true,
-    //   default: 'editor'
-    // }
     selected: {
       default: false,
       type: Boolean
+    },
+    index: {
+      default: 1,
+      type: Number
     }
   },
   mounted () {
     this.initialize()
-    this.$emit('page_created', {
-      quill: this.quill,
-      ref: this.quillRef
-    })
+  },
+  computed: {
+    ...mapGetters(['pages'])
   },
   methods: {
     initialize () {
@@ -34,9 +33,11 @@ export default {
           'align', 'bold'
         ]
       }
-      this.quill = new Quill(this.$refs.editor, options)
-      this.quill.enable(true)
-    }
+      this.innerQuill = new Quill(this.$refs[`quill${this.index}`], options)
+      this.innerQuill.enable(true)
+      this.updatePage({index: this.index, quill: this.innerQuill, selected: this.selected})
+    },
+    ...mapActions(['createPage', 'updatePage'])
   }
 }
 </script>
@@ -56,14 +57,14 @@ export default {
   }
   .ql-editor{
     min-height: inherit;
-    // &.ql-blank::before {
-    //   color: rgba(0,0,0,0.6);
-    //   content: attr(data-placeholder);
-    //   font-style: italic;
-    //   left: 15px;
-    //   pointer-events: none;
-    //   position: relative;
-    //   right: 15px;
-    // }
+    &.ql-blank::before {
+      color: rgba(0,0,0,0.6);
+      content: attr(data-placeholder);
+      font-style: italic;
+      left: 15px;
+      pointer-events: none;
+      position: relative;
+      right: 15px;
+    }
   }
 </style>
