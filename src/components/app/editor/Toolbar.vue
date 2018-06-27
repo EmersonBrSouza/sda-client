@@ -5,7 +5,9 @@
         <div class="column is-6 pr-0">
           <b-field label="Fonte" custom-class="menu-label mb-5">
             <b-select>
-                <option value="catamaran" selected>Catamaran</option>
+                <option v-for="font in fonts" :key="font.name" :value="font.name">
+                  <span :style="{ fontFamily:font.fontName }"> {{ font.name}} </span>
+                </option>
             </b-select>
           </b-field>
         </div>
@@ -85,6 +87,16 @@
     </div>
   </div>
 </template>
+
+<script>
+import { mapGetters } from 'vuex'
+
+export default {
+  computed: {
+    ...mapGetters(['fonts', 'selectedFont'])
+  }
+}
+</script>
 
 <style lang='scss'>
   .toolbar{
