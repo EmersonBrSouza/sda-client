@@ -26,13 +26,13 @@
               <span class="label menu-label">Estilo</span>
             </div>
             <div class="column is-12 pt-0">
-              <button class="button">
+              <button class="button" :class="{'enabled':bold}" @click="toggle('bold')">
                 <b-icon icon="bold"></b-icon>
               </button>
-              <button class="button">
+              <button class="button" :class="{'enabled':italic}" @click="toggle('italic')">
                 <b-icon icon="italic"></b-icon>
               </button>
-              <button class="button">
+              <button class="button" :class="{'enabled':underline}" @click="toggle('underline')">
                 <b-icon icon="underline"></b-icon>
               </button>
             </div>
@@ -127,6 +127,13 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+  data () {
+    return {
+      bold: false,
+      italic: false,
+      underline: false
+    }
+  },
   computed: {
     className () {
       return this.selectedFont.name.split(' ').join('')
@@ -137,6 +144,9 @@ export default {
     selectFont (fontName) {
       console.log(fontName)
       this.setFont(fontName)
+    },
+    toggle (property) {
+      this[property] = !this[property]
     },
     ...mapActions(['setFont'])
   }
@@ -151,8 +161,8 @@ export default {
   .right-line{
     border-right: 1px solid #eee;
   }
-  .ata > * > *{
-    color: green !important;
+  .button.enabled{
+    border: 1px solid green
   }
 
   .Arial > * > *{ font-family: 'Arial', sans-serif; }
