@@ -4,14 +4,14 @@ Vue.use(Vuex)
 
 var initialPage = { index: 1, selected: true }
 var font = [
-  { name: 'Arial', fontName: "'Arial', sans-serif;", selected: false },
-  { name: 'Bitter', fontName: "'Bitter', serif;", selected: false },
-  { name: 'Catamaran', fontName: "'Catamaran', sans-serif;", selected: false },
-  { name: 'IM Fell English SC', fontName: "'IM Fell English SC', serif;", selected: true },
-  { name: 'Indie Flower', fontName: "'Indie Flower', cursive;", selected: false },
-  { name: 'Nunito', fontName: "'Nunito', sans-serif;", selected: false },
-  { name: 'Raleway', fontName: "'Raleway', sans-serif;", selected: true },
-  { name: 'Roboto', fontName: "'Roboto', sans-serif;", selected: false }
+  { index: 1, name: 'Arial', fontName: "'Arial', sans-serif;", selected: true },
+  { index: 2, name: 'Bitter', fontName: "'Bitter', serif;", selected: false },
+  { index: 3, name: 'Catamaran', fontName: "'Catamaran', sans-serif;", selected: false },
+  { index: 4, name: 'IM Fell English SC', fontName: "'IM Fell English SC', serif;", selected: false },
+  { index: 5, name: 'Indie Flower', fontName: "'Indie Flower', cursive;", selected: false },
+  { index: 6, name: 'Nunito', fontName: "'Nunito', sans-serif;", selected: false },
+  { index: 7, name: 'Raleway', fontName: "'Raleway', sans-serif;", selected: false },
+  { index: 8, name: 'Roboto', fontName: "'Roboto', sans-serif;", selected: false }
 ]
 
 export const store = new Vuex.Store({
@@ -23,7 +23,8 @@ export const store = new Vuex.Store({
     pages: state => state.pages,
     quill: state => state.pages.filter(item => item.selected)[0],
     fonts: state => state.fonts,
-    selectedFont: state => state.fonts.filter(item => item.selected)[0]
+    selectedFont: state => state.fonts.filter(item => item.selected)[0],
+    selectedFontIndex: state => state.fonts.filter(item => item.selected)[0].index
   },
   actions: {
     createPage ({ commit }) {
@@ -34,6 +35,9 @@ export const store = new Vuex.Store({
     },
     selectQuill ({ commit }, payload) {
       commit('SET_QUILL', payload)
+    },
+    setFont ({ commit }, payload) {
+      commit('SET_FONT', payload)
     }
   },
   mutations: {
@@ -48,6 +52,12 @@ export const store = new Vuex.Store({
     },
     SET_QUILL (state, payload) {
       state.pages.map(item => {
+        item.selected = false
+        if (item.index === payload) item.selected = true
+      })
+    },
+    SET_FONT (state, payload) {
+      state.fonts.map(item => {
         item.selected = false
         if (item.index === payload) item.selected = true
       })

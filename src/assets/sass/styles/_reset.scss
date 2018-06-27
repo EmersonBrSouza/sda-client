@@ -20,3 +20,10 @@ footer{
 label{
     float: left;
 }
+
+
+button::-moz-focus-inner, select:focus {
+    border: 0;
+  }
+  
+  

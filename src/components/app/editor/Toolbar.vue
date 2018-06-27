@@ -1,11 +1,11 @@
 <template>
   <div class="toolbar columns">
-    <div class="column is-2">
+    <div class="column is-2-fullhd is-3-desktop">
       <div class="columns right-line">
         <div class="column is-6 pr-0">
           <b-field label="Fonte" custom-class="menu-label mb-5">
-            <b-select :class="className">
-                <option v-for="font in fonts" :key="font.name" :value="font.name">
+            <b-select :class="className" v-model="selectedFontIndex" @input="selectFont">
+                <option v-for="font in fonts" :key="font.index" :value="font.index">
                   <span > {{ font.name }} </span>
                 </option>
             </b-select>
@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    <div class="column is-3">
+    <div class="column is-2-fullhd is-4-desktop">
       <div class="columns right-line">
         <div class="column is-4 pr-0">
           <div class="columns is-multiline">
@@ -38,28 +38,63 @@
             </div>
           </div>
         </div>
-        <div class="column is-5 pl-10">
+        <div class="column is-4 pl-10">
           <div class="columns is-multiline">
             <div class="column is-12 pb-0 mb-10">
               <span class="label menu-label">Alinhamento</span>
             </div>
             <div class="column is-12 pt-0">
-              <button class="button">
-                <b-icon icon="align-left"></b-icon>
-              </button>
-              <button class="button">
-                <b-icon icon="align-right"></b-icon>
-              </button>
-              <button class="button">
-                <b-icon icon="align-center"></b-icon>
-              </button>
-              <button class="button">
-                <b-icon icon="align-justify"></b-icon>
-              </button>
+                <b-dropdown v-model="isPublic">
+                  <button class="button" type="button" slot="trigger">
+                      <template v-if="isPublic">
+                          <b-icon icon="align-left"></b-icon>
+                      </template>
+                      <template v-else>
+                          <b-icon icon="align-right"></b-icon>
+                      </template>
+                      <b-icon icon="caret-down"></b-icon>
+                  </button>
+
+                  <b-dropdown-item :value="true">
+                      <div class="media">
+                          <b-icon class="media-left" icon="align-left"></b-icon>
+                          <div class="media-content">
+                              <h3>Esquerda</h3>
+                          </div>
+                      </div>
+                  </b-dropdown-item>
+
+                  <b-dropdown-item :value="false">
+                      <div class="media">
+                          <b-icon class="media-left" icon="align-right"></b-icon>
+                          <div class="media-content">
+                              <h3>Direita</h3>
+                          </div>
+                      </div>
+                  </b-dropdown-item>
+
+                  <b-dropdown-item :value="false">
+                      <div class="media">
+                          <b-icon class="media-left" icon="align-center"></b-icon>
+                          <div class="media-content">
+                              <h3>Centralizado</h3>
+                          </div>
+                      </div>
+                  </b-dropdown-item>
+
+                  <b-dropdown-item :value="false">
+                      <div class="media">
+                          <b-icon class="media-left" icon="align-justify"></b-icon>
+                          <div class="media-content">
+                              <h3>Justificado</h3>
+                          </div>
+                      </div>
+                  </b-dropdown-item>
+              </b-dropdown>
             </div>
           </div>
         </div>
-        <div class="column is-2 pl-10">
+        <div class="column is-2 pl-0">
           <div class="columns is-multiline">
             <div class="column is-12 pb-0 mb-10">
               <span class="label menu-label">Cor</span>
@@ -71,7 +106,7 @@
             </div>
           </div>
         </div>
-        <div class="column is-1 pl-10">
+        <div class="column is-1 pl-0">
           <div class="columns is-multiline">
             <div class="column is-12 pb-0 pl-0 mb-10">
               <span class="label menu-label">PDF</span>
@@ -89,14 +124,21 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   computed: {
     className () {
       return this.selectedFont.name.split(' ').join('')
     },
-    ...mapGetters(['fonts', 'selectedFont'])
+    ...mapGetters(['fonts', 'selectedFont', 'selectedFontIndex'])
+  },
+  methods: {
+    selectFont (fontName) {
+      console.log(fontName)
+      this.setFont(fontName)
+    },
+    ...mapActions(['setFont'])
   }
 }
 </script>
