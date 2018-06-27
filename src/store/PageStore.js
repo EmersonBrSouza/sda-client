@@ -4,13 +4,13 @@ Vue.use(Vuex)
 
 var initialPage = { index: 1, selected: true }
 var font = [
-  { name: 'Arial', fontName: "'Arial', sans-serif;", selected: true },
+  { name: 'Arial', fontName: "'Arial', sans-serif;", selected: false },
   { name: 'Bitter', fontName: "'Bitter', serif;", selected: false },
   { name: 'Catamaran', fontName: "'Catamaran', sans-serif;", selected: false },
-  { name: 'IM Fell English SC', fontName: "'IM Fell English SC', serif;", selected: false },
+  { name: 'IM Fell English SC', fontName: "'IM Fell English SC', serif;", selected: true },
   { name: 'Indie Flower', fontName: "'Indie Flower', cursive;", selected: false },
   { name: 'Nunito', fontName: "'Nunito', sans-serif;", selected: false },
-  { name: 'Raleway', fontName: "'Raleway', sans-serif;", selected: false },
+  { name: 'Raleway', fontName: "'Raleway', sans-serif;", selected: true },
   { name: 'Roboto', fontName: "'Roboto', sans-serif;", selected: false }
 ]
 

@@ -4,9 +4,9 @@
       <div class="columns right-line">
         <div class="column is-6 pr-0">
           <b-field label="Fonte" custom-class="menu-label mb-5">
-            <b-select>
+            <b-select :class="className">
                 <option v-for="font in fonts" :key="font.name" :value="font.name">
-                  <span :style="{ fontFamily:font.fontName }"> {{ font.name}} </span>
+                  <span > {{ font.name }} </span>
                 </option>
             </b-select>
           </b-field>
@@ -93,6 +93,9 @@ import { mapGetters } from 'vuex'
 
 export default {
   computed: {
+    className () {
+      return this.selectedFont.name.split(' ').join('')
+    },
     ...mapGetters(['fonts', 'selectedFont'])
   }
 }
@@ -106,4 +109,16 @@ export default {
   .right-line{
     border-right: 1px solid #eee;
   }
+  .ata > * > *{
+    color: green !important;
+  }
+
+  .Arial > * > *{ font-family: 'Arial', sans-serif; }
+  .Bitter > * > * { font-family: 'Bitter', serif; }
+  .Catamaran > * > * { font-family: 'Catamaran', sans-serif; }
+  .IMFellEnglishSC > * > * { font-family: 'IM Fell English SC', sans-serif; }
+  .IndieFlower > * > * { font-family: 'Indie Flower', cursive; }
+  .Nunito > * > * { font-family: 'Nunito', sans-serif; }
+  .Raleway > * > * { font-family: 'Raleway', sans-serif; }
+  .Roboto > * > * { font-family: 'Roboto', sans-serif; }
 </style>
