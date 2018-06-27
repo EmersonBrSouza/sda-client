@@ -19,7 +19,16 @@
 import Page from './editor/Page'
 import Toolbar from './editor/Toolbar'
 import { mapGetters, mapActions } from 'vuex'
+import $ from 'jquery'
 
+$(window).on('scroll', function (e) {
+  var fix = $('.dynamic-fix')
+  if ($(window).scrollTop() > $(window).height()/10 - 10) {
+    fix.addClass('fix-top')
+  } else {
+    fix.removeClass('fix-top')
+  }
+})
 export default {
   components: {
     Page,

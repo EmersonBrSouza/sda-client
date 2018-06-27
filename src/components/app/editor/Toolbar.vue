@@ -1,5 +1,5 @@
 <template>
-  <div class="toolbar columns">
+  <div class="toolbar columns dynamic-fix">
     <div class="column is-2-fullhd is-3-desktop">
       <div class="columns right-line">
         <div class="column is-6 pr-0">
@@ -157,6 +157,18 @@ export default {
   .toolbar{
     padding-left: 0.75rem;
     padding-right: 0.75rem;
+  }
+  .fix-top{
+    position: fixed;
+    background-color: white;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    margin-left: 0px;
+    padding-left: 0px;
+    padding-top: 15px;
+    margin-right: 0px;
+    width: 100%;
   }
   .right-line{
     border-right: 1px solid #eee;
