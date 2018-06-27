@@ -23,7 +23,7 @@ import $ from 'jquery'
 
 $(window).on('scroll', function (e) {
   var fix = $('.dynamic-fix')
-  if ($(window).scrollTop() > $(window).height()/10 - 10) {
+  if ($(window).scrollTop() > $(window).height() / 10 - 10) {
     fix.addClass('fix-top')
   } else {
     fix.removeClass('fix-top')
