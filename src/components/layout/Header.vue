@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="https://bulma.io">
                 <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
@@ -17,10 +17,10 @@
                 <div class="navbar-item">
                     <div class="field is-grouped is-multiline">
                         <p class="control">
-                            <button class="button is-primary">
+                            <router-link class="button is-primary" :to="{ name: 'login'}">
                                 <b-icon icon="sign-in-alt"></b-icon>
                                 <span>Fazer Login</span>
-                            </button>
+                            </router-link>
                         </p>
                         <p class="control">
                             <router-link class="button is-warning" :to="{ name: 'register'}">

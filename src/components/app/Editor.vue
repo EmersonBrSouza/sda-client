@@ -23,7 +23,10 @@ import $ from 'jquery'
 
 $(window).on('scroll', function (e) {
   var fix = $('.dynamic-fix')
-  if ($(window).scrollTop() > $(window).height() / 10 - 10) {
+  var navbarHeight = $('.is-fixed-top').height()
+
+  if ($(window).scrollTop() > navbarHeight) {
+    fix.css('top', navbarHeight)
     fix.addClass('fix-top')
   } else {
     fix.removeClass('fix-top')

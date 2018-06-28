@@ -183,11 +183,9 @@ export default {
     margin-left: 0px;
     margin-right: 0px;
     padding-left: 0px;
-    padding-top: 15px;
-    z-index: 10000;
+    z-index: 10;
     width: 100%;
     left: 0;
-    top: 0;
     box-shadow: 0px 0px 3px rgba(0,0,0,.6);
   }
   .right-line{

@@ -1,5 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif|Rubik:400,500');
+
+$noto: 'Noto Serif', serif;
+$rubik: 'Rubik', sans-serif;
+
 html,body{
-    font-family: 'Catamaran',sans-serif !important;
+    font-family: $noto;
 	color:#000;
     height: 100vh;
     min-height: 100vh;
@@ -7,23 +12,21 @@ html,body{
 	flex-direction: column;
 }
 
-footer{
-    padding-bottom: 3rem !important;
-}
+footer { padding-bottom: 3rem !important; }
 
-.flex-grow{
+.flex-grow {
     display: flex;
     flex-grow: 1;
     flex-direction: column;
 }
 
-label{
+label,.label {
     float: left;
+    font-family: $rubik !important;
+    font-weight: 400 !important;
 }
 
 
-button::-moz-focus-inner, select:focus {
-    border: 0;
-  }
+button::-moz-focus-inner, select:focus { border: 0; }
   
   
