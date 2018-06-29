@@ -4,7 +4,7 @@
         <div class="column is-3 mt-15 mt-lg-60">
             <div class="columns is-multiline">
                 <div class="column is-12">
-                    <h1 class="title is-3 has-text-left">Bem-vindo! Entre em sua conta e comece a usar.</h1>
+                    <h1 class="title is-3 has-text-left">Entre em sua conta e comece a usar.</h1>
                 </div>
                 <div class="column is-11">
                     <b-field label="Email">

@@ -4,8 +4,18 @@
             Minha Conta
         </p>
         <ul class="menu-list">
-            <li><a class="is-active"><b-icon icon="folder"/> <span>Meus Projetos</span></a></li>
-            <li><a><b-icon icon="user"/> <span>Meu Perfil</span> </a></li>
+            <li>
+                <router-link :to="{name: 'projects'}" :class="{'is-active': $route.name == 'projects' || $route.name == 'dashboard'}">
+                    <b-icon icon="folder"/>
+                    <span>Meus Projetos</span>
+                </router-link>
+            </li>
+            <li>
+                <router-link :to="{name: 'profile'}" :class="{'is-active': $route.name == 'profile'}">
+                    <b-icon icon="user"/>
+                    <span>Meu Perfil</span>
+                </router-link>
+            </li>
         </ul>
         <p class="menu-label">
             Gerenciar Time
@@ -23,3 +33,13 @@
         </ul>
     </aside>
 </template>
+
+<script>
+export default {
+  computed: {
+    routeName () {
+      return this.$route.name
+    }
+  }
+}
+</script>

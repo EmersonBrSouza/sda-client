@@ -8,17 +8,17 @@
                 </div>
                 <div class="column is-11">
                     <b-field label="Nome" custom-class="text-white">
-                        <b-input type="text"/>
+                        <b-input type="text" v-model='$v.name.$model'/>
                     </b-field>
                 </div>
                 <div class="column is-11">
                     <b-field label="Email" custom-class="text-white">
-                        <b-input type="email"/>
+                        <b-input type="email" v-model='$v.email.$model'/>
                     </b-field>
                 </div>
                 <div class="column is-11">
                     <b-field label="Senha" custom-class="text-white">
-                        <b-input type="password"/>
+                        <b-input type="password" v-model='$v.password.$model'/>
                     </b-field>
                 </div>
                 <div class="column is-11">
@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import { isAlpha } from '@/scripts/global/validators'
+import { required, email, maxLength, minLength } from 'vuelidate/lib/validators'
 export default {
   computed: {
     backgroundConfig () {
@@ -39,6 +41,11 @@ export default {
         backgroundRepeat: 'no-repeat'
       }
     }
+  },
+  validations: {
+    name: { required, isAlpha },
+    email: { required, email },
+    password: { required, minLength: minLength(8), maxLength: maxLength(8) }
   }
 }
 </script>

@@ -14,12 +14,12 @@
                                @completed='showButton'
                                :class="['handlee']"/>
                 </div>
-                <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" :duration="{ enter: 3500, leave: 800 }">>
+                <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" :duration="{ enter: 5900, leave: 800 }">>
                     <div class="column is-12 has-text-right" v-if="typer.showCitation" :key="save">
                         <span> - Johann Goethe</span>
                     </div>
                  </transition>
-                <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" :duration="3000">
+                <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" :duration="{ enter: 5900, leave: 800 }">
                     <div class="column is-12 has-text-centered" v-if="typer.showButton" >
                         <router-link :to="{ name: 'register' }" class="button is-primary"> Crie a sua conta agora! </router-link>
                     </div>
@@ -36,7 +36,7 @@ export default {
   data () {
     return {
       typer: {
-        texts: ['"Uma palavra escrita é semelhante \n a uma pérola."', 'Cuide bem do seu tesouro.\n Use TextO!'],
+        texts: ['"Uma palavra escrita é semelhante \n a uma pérola."', 'Cuide bem do seu tesouro.\n Use {{ Nome do Aplicativo }}!'],
         showCitation: false,
         showButton: false,
         count: 0
@@ -72,9 +72,12 @@ export default {
 </script>
 
 <style lang="scss">
-    @import url('https://fonts.googleapis.com/css?family=Handlee');
     .max-height{ height: 100vh; }
     .handlee {
         font-family: 'Handlee', cursive; font-size: 3rem;
+    }
+    .animated {
+      animation-duration: 3s;
+      animation-fill-mode: both;
     }
 </style>

@@ -7,9 +7,11 @@ import Buefy from 'buefy'
 import 'buefy/lib/buefy.css'
 import 'animate.css/animate.css'
 import { store } from './store/PageStore'
+import Vuelidate from 'vuelidate'
 
 Vue.config.productionTip = false
 Vue.use(Buefy, { defaultIconPack: 'fas' })
+Vue.use(Vuelidate)
 
 /* eslint-disable no-new */
 new Vue({

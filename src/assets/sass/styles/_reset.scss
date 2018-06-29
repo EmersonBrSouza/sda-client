@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Noto+Serif|Rubik:400,500');
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif|Rubik:400,500|Handlee');
 
 $noto: 'Noto Serif', serif;
 $rubik: 'Rubik', sans-serif;
 
 html,body{
-    font-family: $noto;
+    font-family: $rubik;
 	color:#000;
     height: 100vh;
     min-height: 100vh;
@@ -22,11 +22,16 @@ footer { padding-bottom: 3rem !important; }
 
 label,.label {
     float: left;
-    font-family: $rubik !important;
     font-weight: 400 !important;
 }
 
+.menu-label, .menu-list {
+    font-weight: 400 !important;
+}
 
 button::-moz-focus-inner, select:focus { border: 0; }
-  
-  
+.title { font-family: $noto !important; }
+textarea{ 
+    resize: none !important; 
+    &.textarea:not([rows]){ min-height: 150px }
+}
