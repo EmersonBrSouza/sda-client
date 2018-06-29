@@ -22,7 +22,7 @@
                     </b-field>
                 </div>
                 <div class="column is-11">
-                    <button class="button is-pulled-right is-primary"> Criar a minha conta! </button>
+                    <button class="button is-pulled-right is-primary" @click="register"> Criar a minha conta! </button>
                 </div>
             </div>
         </div>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import Form from 'vform'
 import { isAlpha } from '@/scripts/global/validators'
 import { required, email, maxLength, minLength } from 'vuelidate/lib/validators'
 export default {
@@ -42,10 +43,29 @@ export default {
       }
     }
   },
+  methods: {
+    async register () {
+      if (!this.$v.$anyError && this.$v.$anyDirty) {
+        let form = new Form(this.generateCredentials())
+
+        let { data } = await form.post('http://localhost:8000/register')
+
+        console.log(data)
+      }
+    },
+    generateCredentials () {
+      let data = ['name', 'email', 'password']
+      let vm = this
+      let credentials = {}
+
+      data.forEach((el, i) => { credentials[el] = vm.$v[el].$model })
+      return credentials
+    }
+  },
   validations: {
     name: { required, isAlpha },
     email: { required, email },
-    password: { required, minLength: minLength(8), maxLength: maxLength(8) }
+    password: { required, minLength: minLength(8), maxLength: maxLength(32) }
   }
 }
 </script>

@@ -29,6 +29,10 @@ label,.label {
     font-weight: 400 !important;
 }
 
+.input + span.icon:nth-child(2){
+    top: 1.875rem;
+}
+
 button::-moz-focus-inner, select:focus { border: 0; }
 .title { font-family: $noto !important; }
 textarea{ 
