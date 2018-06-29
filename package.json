@@ -13,6 +13,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "animate.css": "^3.6.1",
     "buefy": "^0.6.6",
     "jquery": "^3.3.1",
     "node-sass": "^4.9.0",

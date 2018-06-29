@@ -1,28 +1,29 @@
 <template>
     <div class="columns max-height is-centered" :style="backgroundConfig">
-        <div class="column is-4 mt-15 mt-lg-60">
-            <div class="columns is-multiline">
-                <div class="column is-12">
-                    <vue-typer :text="text"
+        <div class="column is-5">
+            <div class="columns is-multiline mt-90">
+                <div class="column is-12 has-text-centered">
+                    <vue-typer :text="typer.texts"
                                repeat="0"
                                erase-style='backspace'
-                               erase-delay='70'
-                               @erased='changeText'
-                               :class="['title is-3 has-text-left']"/>
+                               erase-delay='40'
+                               :type-delay='70'
+                               :pre-erase-delay='3000'
+                               @typed='toggleCitation'
+                               @erased='toggleCitation'
+                               @completed='showButton'
+                               :class="['handlee']"/>
                 </div>
-                <!-- <div class="column is-11">
-                    <b-field label="Email">
-                        <b-input type="email"/>
-                    </b-field>
-                </div>
-                <div class="column is-11">
-                    <b-field label="Senha">
-                        <b-input type="password"/>
-                    </b-field>
-                </div>
-                <div class="column is-11">
-                    <button class="button is-pulled-right is-primary"> Entrar na minha conta </button>
-                </div> -->
+                <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" :duration="{ enter: 3500, leave: 800 }">>
+                    <div class="column is-12 has-text-right" v-if="typer.showCitation" :key="save">
+                        <span> - Johann Goethe</span>
+                    </div>
+                 </transition>
+                <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" :duration="3000">
+                    <div class="column is-12 has-text-centered" v-if="typer.showButton" >
+                        <router-link :to="{ name: 'register' }" class="button is-primary"> Crie a sua conta agora! </router-link>
+                    </div>
+                </transition>
             </div>
         </div>
     </div>
@@ -34,7 +35,12 @@ import { VueTyper } from 'vue-typer'
 export default {
   data () {
     return {
-      text: 'Frase de Efeito 1'
+      typer: {
+        texts: ['"Uma palavra escrita é semelhante \n a uma pérola."', 'Cuide bem do seu tesouro.\n Use TextO!'],
+        showCitation: false,
+        showButton: false,
+        count: 0
+      }
     }
   },
   components: {
@@ -50,11 +56,25 @@ export default {
     }
   },
   methods: {
-    changeText () { this.text = 'Frase de Efeito 2' }
+    toggleCitation () {
+      if (this.typer.count === 0) {
+        this.typer.showCitation = !this.typer.showCitation
+        this.typer.count++
+      } else {
+        this.typer.showCitation = false
+      }
+    },
+    showButton () {
+      this.typer.showButton = true
+    }
   }
 }
 </script>
 
 <style lang="scss">
+    @import url('https://fonts.googleapis.com/css?family=Handlee');
     .max-height{ height: 100vh; }
+    .handlee {
+        font-family: 'Handlee', cursive; font-size: 3rem;
+    }
 </style>
