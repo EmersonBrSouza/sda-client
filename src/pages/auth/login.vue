@@ -19,7 +19,7 @@
                 <div class="column is-11">
                     <div class="columns is-vcentered">
                         <div class="column">
-                            <span class="is-pulled-left is-primary"> Esqueci a minha senha </span>
+                            <span class="is-pulled-left is-primary elegant-link"> Esqueci a minha senha </span>
                         </div>
                         <div class="column">
                             <button class="button is-pulled-right is-primary"> Entrar na minha conta </button>

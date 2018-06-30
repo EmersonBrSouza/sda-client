@@ -34,7 +34,14 @@ label,.label {
 }
 
 button::-moz-focus-inner, select:focus { border: 0; }
+
 .title { font-family: $noto !important; }
+.help { font-size: 0.825rem; }
+
+.icon.is-right.has-text-warning, .help.is-warning{ color: #f3af0e !important; }
+.input.is-warning { border-color:#f3af0e !important;}
+.input{ box-shadow: none !important; border-width: 2px !important; }
+
 textarea{ 
     resize: none !important; 
     &.textarea:not([rows]){ min-height: 150px }

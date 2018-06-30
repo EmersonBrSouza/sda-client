@@ -1,2 +1,31 @@
 .text-white{ color: white; }
 .button { font-family: 'Roboto', sans-serif }
+
+$thetransition: all .7s cubic-bezier(1,.25,0,.75) 0s;
+
+.elegant-link {
+  position: relative;
+  &:hover{
+    // text-decoration: underline;
+    cursor: pointer;
+  }
+  &:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    bottom: 0;
+    left: 0;
+    background-color: #f3af0e;
+    visibility: hidden;
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+    -webkit-transition: $thetransition;
+    transition: $thetransition;
+    }
+    &:hover:before {
+    visibility: visible;
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+  }
+}
