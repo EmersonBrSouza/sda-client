@@ -29,3 +29,10 @@ $thetransition: all .7s cubic-bezier(1,.25,0,.75) 0s;
     transform: scaleX(1);
   }
 }
+
+a.dropdown-item, a.dropdown-item > *{
+  color: #363636;
+  &:hover, &:hover > *{
+    color: #7957d5;
+  }
+}

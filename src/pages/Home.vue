@@ -21,7 +21,8 @@
                  </transition>
                 <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" :duration="{ enter: 5900, leave: 800 }">
                     <div class="column is-12 has-text-centered" v-if="typer.showButton" >
-                        <router-link :to="{ name: 'register' }" class="button is-primary"> Crie a sua conta agora! </router-link>
+                        <router-link v-if="!isLogged" :to="{ name: 'register' }" class="button is-primary"> Crie a sua conta agora! </router-link>
+                        <router-link v-else :to="{ name: 'dashboard' }" class="button is-primary"> Crie um texto agora! </router-link>
                     </div>
                 </transition>
             </div>
@@ -31,7 +32,7 @@
 
 <script>
 import { VueTyper } from 'vue-typer'
-
+import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
@@ -53,7 +54,8 @@ export default {
         backgroundSize: '100%',
         backgroundRepeat: 'no-repeat'
       }
-    }
+    },
+    ...mapGetters(['isLogged'])
   },
   methods: {
     toggleCitation () {

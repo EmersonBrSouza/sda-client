@@ -4,26 +4,25 @@
         <div class="column is-3 mt-15 mt-lg-60">
             <div class="columns is-multiline">
                 <div class="column is-12">
-                    <h1 class="title is-3 has-text-left">Entre em sua conta e comece a usar.</h1>
+                    <h1 class="title is-3 has-text-left">Não se preocupe, vamos resolver.</h1>
                 </div>
-                <div class="column is-11">
-                    <b-field label="Email" :type="errors.email ? 'is-danger':''" :message="errors.email">
-                        <b-input type="email" v-model="$v.email.$model" @input="$v.email.$reset" @blur="$v.email.$touch()"/>
+                <div class="column is-11" v-if='!mailSent'>
+                    <b-field label="Nos diga qual é o seu email" :type="errors.email ? 'is-danger':''" :message="errors.email">
+                        <b-input type="email" v-model="$v.email.$model" @input="$v.email.$reset" @blur="$v.email.$touch()" placeholder="exemplo@email.com"/>
                     </b-field>
                 </div>
-                <div class="column is-11">
-                    <b-field label="Senha" :type="errors.password ? 'is-danger':''" :message="errors.password">
-                        <b-input type="password" v-model="$v.password.$model" @blur="$v.password.$touch()" @input="$v.password.$reset"/>
-                    </b-field>
-                </div>
-                <div class="column is-11">
+                <div class="column is-11" v-if='!mailSent'>
                     <div class="columns is-vcentered">
                         <div class="column">
-                            <router-link :to="{ name: 'password'}" class="is-pulled-left is-primary elegant-link"> Esqueci a minha senha </router-link>
+                            <button class="button is-pulled-right is-primary" @click="send"> Enviar email de recuperação </button>
                         </div>
-                        <div class="column">
-                            <button class="button is-pulled-right is-primary" @click="login"> Entrar na minha conta </button>
-                        </div>
+                    </div>
+                </div>
+                <div class="column is-11" v-if='mailSent'>
+                    <div class="columns is-vcentered">
+                      <div class="column is-12">
+                        <h1 class="subtitle is-6 has-text-left">Agora você só precisar clicar no link que enviamos para o seu email: <strong>{{$v.email.$model}}</strong> </h1>
+                      </div>
                     </div>
                 </div>
             </div>
@@ -32,29 +31,29 @@
 </template>
 
 <script>
-import { required, email, maxLength, minLength } from 'vuelidate/lib/validators'
-import { auth, db } from '@/scripts/firebaseInit'
+import { required, email } from 'vuelidate/lib/validators'
+import { auth } from '@/scripts/firebaseInit'
 import { mapActions } from 'vuex'
 
 export default {
   data () {
     return {
       email: '',
-      password: '',
+      mailSent: false,
       externalErrors: []
     }
   },
   computed: {
     backgroundConfig () {
       return {
-        background: 'url(' + require(`@/assets/img/bg-login.jpg`) + ')',
+        background: 'url(' + require(`@/assets/img/bg-forget.jpg`) + ')',
         backgroundSize: '100%',
         backgroundRepeat: 'no-repeat'
       }
     },
     errors () {
-      let data = ['email', 'password']
-      let validators = ['required', 'email', 'minLength', 'maxLength']
+      let data = ['email']
+      let validators = ['required', 'email']
       let errors = {}
       let app = this
       let vm = this.$v
@@ -85,25 +84,14 @@ export default {
     }
   },
   methods: {
-    async login () {
+    async send () {
       if (!this.$v.$anyError && this.$v.$anyDirty) {
         let vm = this
-        let { email, password } = this.generateCredentials()
+        let { email } = this.generateCredentials()
 
-        auth.signInWithEmailAndPassword(email, password)
-          .then(function (response) {
-            var user = auth.currentUser
-
-            db.collection('users').doc(user.uid).get()
-              .then(function (doc) {
-                if (doc.exists) {
-                  let { name, description } = doc.data()
-                  vm.fetchUser({user, name, description, firstLogin: false})
-                  vm.$router.push({ name: 'dashboard' })
-                }
-              }).catch(function (error) {
-                console.error('Error writing document: ', error)
-              })
+        auth.sendPasswordResetEmail(email)
+          .then(function () {
+            vm.mailSent = true
           })
           .catch(function (error) {
             console.log(error.code)
@@ -125,7 +113,7 @@ export default {
       }
     },
     generateCredentials () {
-      let data = ['email', 'password']
+      let data = ['email']
       let vm = this
       let credentials = {}
 
@@ -138,10 +126,7 @@ export default {
     getMessages (property) {
       let messages = {
         required: 'Campo Obrigatório',
-        email: 'Por favor, insira um endereço de email válido',
-        isAlpha: 'Números e símbolos especiais não são permitidos',
-        minLength: 'A senha deve conter pelo menos 8 caracteres',
-        maxLength: 'A senha deve conter no máximo 32 caracteres'
+        email: 'Por favor, insira um endereço de email válido'
       }
 
       return messages[property]
@@ -149,8 +134,7 @@ export default {
     ...mapActions(['fetchUser'])
   },
   validations: {
-    email: { required, email },
-    password: { required, minLength: minLength(8), maxLength: maxLength(32) }
+    email: { required, email }
   }
 }
 </script>

@@ -14,7 +14,7 @@
             <div class="navbar-start">
             </div>
             <div class="navbar-end">
-                <div class="navbar-item">
+                <div class="navbar-item" v-if="!isLogged">
                     <div class="field is-grouped is-multiline">
                         <p class="control">
                             <router-link class="button is-primary" :to="{ name: 'login'}">
@@ -30,17 +30,55 @@
                         </p>
                     </div>
                 </div>
+                <div class="navbar-item" v-else>
+                    <span class="mr-10"> Bem vindo(a), {{ getUsername }} </span>
+                    <span>
+                        <b-dropdown position="is-bottom-left">
+                            <b-icon icon="caret-down" size="is-small" slot="trigger"/>
+                            <b-dropdown-item>
+                                <router-link :to="{ name: 'projects' }" class="media dropdown-link">
+                                    <b-icon class="media-left" icon="folder"></b-icon>
+                                    <div class="media-content">
+                                        <h3>Meus Projetos</h3>
+                                    </div>
+                                </router-link>
+                            </b-dropdown-item>
+                            <b-dropdown-item>
+                                <router-link :to="{ name: 'profile' }" class="media dropdown-link">
+                                    <b-icon class="media-left" icon="user"></b-icon>
+                                    <div class="media-content">
+                                        <h3>Meu Perfil</h3>
+                                    </div>
+                                </router-link>
+                            </b-dropdown-item>
+                            <hr class="dropdown-divider">
+                            <b-dropdown-item>
+                                <router-link :to="{ name: 'logout' }" class="media dropdown-link">
+                                    <b-icon class="media-left" icon="sign-out-alt"></b-icon>
+                                    <div class="media-content">
+                                        <h3>Sair da Conta</h3>
+                                    </div>
+                                </router-link>
+                            </b-dropdown-item>
+                        </b-dropdown>
+                    </span>
+                </div>
             </div>
         </div>
     </nav>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data () {
     return {
       isActive: true
     }
+  },
+  computed: {
+    ...mapGetters(['isLogged', 'getUsername'])
   },
   methods: {
     toggleMenu () {

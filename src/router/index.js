@@ -5,7 +5,9 @@ import HelloWorld from '@/components/HelloWorld'
 
 import Home from '@/pages/home'
 import Register from '@/pages/auth/register'
+import PasswordReset from '@/pages/auth/password/reset'
 import Login from '@/pages/auth/login'
+import Logout from '@/pages/auth/logout'
 
 import DashboardProjects from '@/pages/app/dashboard/projects'
 import DashboardProfile from '@/pages/app/dashboard/profile'
@@ -19,10 +21,12 @@ const router = new Router({
     { path: '/home', name: 'home', component: Home },
     { path: '/register', name: 'register', component: Register, meta: { denyToAuth: true } },
     { path: '/login', name: 'login', component: Login, meta: { denyToAuth: true } },
+    { path: '/password/reset', name: 'password', component: PasswordReset, meta: { denyToAuth: true } },
     { path: '/editor', name: 'editor', component: Editor, meta: { requiresAuth: true } },
     { path: '/dashboard/', name: 'dashboard', component: DashboardProjects, meta: { requiresAuth: true } },
     { path: '/dashboard/projetos', name: 'projects', component: DashboardProjects, meta: { requiresAuth: true } },
-    { path: '/dashboard/perfil', name: 'profile', component: DashboardProfile, meta: { requiresAuth: true } }
+    { path: '/dashboard/perfil', name: 'profile', component: DashboardProfile, meta: { requiresAuth: true } },
+    { path: '/logout', name: 'logout', component: Logout, meta: { requiresAuth: true } }
   ]
 })
 
