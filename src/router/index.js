@@ -19,9 +19,9 @@ const router = new Router({
   routes: [
     { path: '/', name: 'HelloWorld', component: HelloWorld },
     { path: '/home', name: 'home', component: Home },
-    { path: '/register', name: 'register', component: Register, meta: { denyToAuth: true } },
+    { path: '/cadastro', name: 'register', component: Register, meta: { denyToAuth: true } },
     { path: '/login', name: 'login', component: Login, meta: { denyToAuth: true } },
-    { path: '/password/reset', name: 'password', component: PasswordReset, meta: { denyToAuth: true } },
+    { path: '/recuperar-senha', name: 'password', component: PasswordReset, meta: { denyToAuth: true } },
     { path: '/editor', name: 'editor', component: Editor, meta: { requiresAuth: true } },
     { path: '/dashboard/', name: 'dashboard', component: DashboardProjects, meta: { requiresAuth: true } },
     { path: '/dashboard/projetos', name: 'projects', component: DashboardProjects, meta: { requiresAuth: true } },

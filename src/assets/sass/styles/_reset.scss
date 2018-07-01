@@ -46,3 +46,7 @@ textarea{
     resize: none !important; 
     &.textarea:not([rows]){ min-height: 150px }
 }
+
+.fas.fa-eye.fa-lg{
+    opacity: 0.3 !important;
+}

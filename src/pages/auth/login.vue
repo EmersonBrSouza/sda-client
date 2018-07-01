@@ -13,7 +13,7 @@
                 </div>
                 <div class="column is-11">
                     <b-field label="Senha" :type="errors.password ? 'is-danger':''" :message="errors.password">
-                        <b-input type="password" v-model="$v.password.$model" @blur="$v.password.$touch()" @input="$v.password.$reset"/>
+                        <b-input type="password" v-model="$v.password.$model" @blur="$v.password.$touch()" @input="$v.password.$reset" password-reveal/>
                     </b-field>
                 </div>
                 <div class="column is-11">

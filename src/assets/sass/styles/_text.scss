@@ -5,6 +5,7 @@ $thetransition: all .7s cubic-bezier(1,.25,0,.75) 0s;
 
 .elegant-link {
   position: relative;
+  color: #363636 !important;
   &:hover{
     // text-decoration: underline;
     cursor: pointer;
