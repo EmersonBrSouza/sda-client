@@ -4,9 +4,9 @@
             <div class="columns is-multiline mt-90">
                 <div class="column is-12 has-text-centered">
                     <vue-typer :text="typer.texts"
-                               repeat="0"
+                               :repeat="0"
                                erase-style='backspace'
-                               erase-delay='40'
+                               :erase-delay='40'
                                :type-delay='70'
                                :pre-erase-delay='3000'
                                @typed='toggleCitation'

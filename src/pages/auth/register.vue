@@ -30,15 +30,17 @@
 </template>
 
 <script>
-import Form from 'vform'
 import { isAlpha } from '@/scripts/global/validators'
 import { required, email, maxLength, minLength } from 'vuelidate/lib/validators'
+import { auth, db } from '@/scripts/firebaseInit'
+import { mapActions } from 'vuex'
 export default {
   data () {
     return {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      externalErrors: []
     }
   },
   computed: {
@@ -58,13 +60,17 @@ export default {
 
       let exists = (field, property) => { return field.hasOwnProperty(property) }
 
+      if (this.externalErrors) {
+        Object.assign(errors, this.externalErrors)
+        this.clearExternalErrors()
+      }
+
       data.forEach(item => {
         let field = vm[item]
 
         if (!field.$dirty) return
 
         for (let i = 0; i < validators.length; i++) {
-          console.log(validators[i])
           if (exists(field, validators[i]) && !field[validators[i]]) {
             errors[item] = app.getMessages(validators[i])
             return
@@ -78,11 +84,38 @@ export default {
   methods: {
     async register () {
       if (!this.$v.$anyError && this.$v.$anyDirty) {
-        let form = new Form(this.generateCredentials())
+        let vm = this
+        let { name, email, password } = this.generateCredentials()
 
-        let { data } = await form.post('http://localhost:8000/register')
+        auth.createUserWithEmailAndPassword(email, password)
+          .then(function (response) {
+            var user = auth.currentUser
 
-        console.log(data)
+            db.collection('users').doc(user.uid).set({
+              name: name
+            }).then(function () {
+              vm.fetchUser({user, name, firstLogin: true})
+              vm.$router.push({ name: 'login' })
+            }).catch(function (error) {
+              console.error('Error writing document: ', error)
+            })
+          })
+          .catch(function (error) {
+            switch (error.code) {
+              case 'auth/email-already-in-use':
+                vm.externalErrors = { email: 'Já existe uma conta cadastrada com este email.' }
+                break
+              case 'auth/invalid-email':
+                vm.externalErrors = { email: vm.getMessages('email') }
+                break
+              case 'auth/operation-not-allowed':
+                vm.externalErrors = { email: 'Sua conta foi suspensa! Entre em contato com a nossa equipe para mais detalhes.' }
+                break
+              case 'auth/weak-password':
+                vm.externalErrors = { password: 'A senha informada é fraca. Tente uma combinação mais segura.' }
+                break
+            }
+          })
       }
     },
     generateCredentials () {
@@ -103,7 +136,11 @@ export default {
       }
 
       return messages[property]
-    }
+    },
+    clearExternalErrors () {
+      this.externalErrors = []
+    },
+    ...mapActions(['fetchUser'])
   },
   validations: {
     name: { required, isAlpha },

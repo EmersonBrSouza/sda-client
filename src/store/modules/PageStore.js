@@ -1,7 +1,3 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-Vue.use(Vuex)
-
 var initialPage = { index: 1, selected: true }
 var font = [
   { index: 1, name: 'Arial', fontName: "'Arial', sans-serif;", selected: true },
@@ -14,7 +10,7 @@ var font = [
   { index: 8, name: 'Roboto', fontName: "'Roboto', sans-serif;", selected: false }
 ]
 
-export const store = new Vuex.Store({
+export const pages = {
   state: {
     pages: [ initialPage ],
     fonts: font
@@ -63,4 +59,4 @@ export const store = new Vuex.Store({
       })
     }
   }
-})
+}
