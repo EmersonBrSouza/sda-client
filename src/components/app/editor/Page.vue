@@ -1,5 +1,5 @@
 <template>
-  <div class="page mt-15" :class="{'selected':selected}" :ref="`quill${index}`">
+  <div class="page mt-15" :class="{'selected':selected}" :ref="`quill${index}`" @keydown.delete="deleteBlank">
   </div>
 </template>
 
@@ -23,21 +23,45 @@ export default {
     this.initialize()
   },
   computed: {
+    cursorPosition () {
+      let quill = this.pages[0].quill
+      var range = quill.getSelection()
+      return range
+    },
+    bottomLimit () {
+      return 1123
+    },
     ...mapGetters(['pages'])
   },
   methods: {
     initialize () {
       var options = {
-        placeholder: 'Compose an epic...',
         formats: [
           'align', 'bold'
         ]
       }
       this.innerQuill = new Quill(this.$refs[`quill${this.index}`], options)
       this.innerQuill.enable(true)
+      this.configureListeners()
       this.updatePage({index: this.index, quill: this.innerQuill, selected: this.selected})
     },
-    ...mapActions(['createPage', 'updatePage'])
+    configureListeners () {
+      let quill = this.innerQuill
+      let vm = this
+      quill.on('text-change', function (delta, oldDelta, source) {
+        if (quill.getBounds(quill.getLength()).bottom > vm.bottomLimit) {
+          vm.$parent.$emit('fullPage', { index: this.index })
+        }
+        // console.log(quill.getBounds(quill.getLength()))
+        // console.log(quill.getBounds(quill.getLength()).bottom > vm.bottomLimit)
+      })
+    },
+    deleteBlank () {
+      if (this.innerQuill.getLength() === 1) {
+        this.deletePage(this.index)
+      }
+    },
+    ...mapActions(['updatePage', 'deletePage'])
   }
 }
 </script>

@@ -41,7 +41,18 @@ export default {
     ...mapGetters(['quill', 'pages'])
   },
   methods: {
-    ...mapActions(['selectQuill', 'createPage'])
+    ...mapActions(['selectQuill', 'createPage', 'deletePage'])
+  },
+  mounted () {
+    let vm = this
+
+    vm.$on('fullPage', function (data) {
+      vm.createPage()
+    })
+
+    vm.$on('deleteBlank', function (data) {
+      vm.deletePage(data.index)
+    })
   }
 }
 </script>

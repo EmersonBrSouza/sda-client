@@ -13,14 +13,16 @@ var font = [
 export const pages = {
   state: {
     pages: [ initialPage ],
-    fonts: font
+    fonts: font,
+    color: '#000'
   },
   getters: {
     pages: state => state.pages,
     quill: state => state.pages.filter(item => item.selected)[0],
     fonts: state => state.fonts,
     selectedFont: state => state.fonts.filter(item => item.selected)[0],
-    selectedFontIndex: state => state.fonts.filter(item => item.selected)[0].index
+    selectedFontIndex: state => state.fonts.filter(item => item.selected)[0].index,
+    selectedColor: state => state.color
   },
   actions: {
     createPage ({ commit }) {
@@ -29,11 +31,18 @@ export const pages = {
     updatePage ({ commit }, payload) {
       commit('UPDATE_PAGE', payload)
     },
-    selectQuill ({ commit }, payload) {
+    deletePage ({ commit }, payload) {
+      commit('DELETE_PAGE', payload)
+    },
+    selectQuill ({ commit, getters }, payload) {
+      if (getters.quill.index === payload) return
       commit('SET_QUILL', payload)
     },
     setFont ({ commit }, payload) {
       commit('SET_FONT', payload)
+    },
+    setColor ({ commit }, payload) {
+      commit('SET_COLOR', payload)
     }
   },
   mutations: {
@@ -46,10 +55,17 @@ export const pages = {
         if (item.index === payload.index) Object.assign(item, payload)
       })
     },
+    DELETE_PAGE (state, payload) {
+      state.pages = state.pages.filter(item => {
+        if (item.index !== payload || state.pages.length === 1) return item
+      })
+    },
     SET_QUILL (state, payload) {
       state.pages.map(item => {
         item.selected = false
-        if (item.index === payload) item.selected = true
+        if (item.index === payload) {
+          item.selected = true
+        }
       })
     },
     SET_FONT (state, payload) {
@@ -57,6 +73,9 @@ export const pages = {
         item.selected = false
         if (item.index === payload) item.selected = true
       })
+    },
+    SET_COLOR (state, payload) {
+      state.color = payload
     }
   }
 }
