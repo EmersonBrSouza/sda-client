@@ -23,27 +23,32 @@ export default {
     this.initialize()
   },
   computed: {
-    cursorPosition () {
-      let quill = this.pages[0].quill
-      var range = quill.getSelection()
-      return range
-    },
     bottomLimit () {
       return 1123
     },
-    ...mapGetters(['pages'])
+    ...mapGetters(['pages', 'selectedFontSize'])
+  },
+  watch: {
+    selectedFontSize () {
+      console.log('oi')
+      this.innerQuill.format('italic', true)
+      this.innerQuill.format('color', 'red')
+      this.innerQuill.format('size', '32px')
+    }
   },
   methods: {
     initialize () {
       var options = {
         formats: [
-          'align', 'bold'
+          'color', 'bold', 'underline', 'italic', 'font', 'size'
         ]
       }
+
+      this.configureWhitelists()
       this.innerQuill = new Quill(this.$refs[`quill${this.index}`], options)
       this.innerQuill.enable(true)
       this.configureListeners()
-      this.updatePage({index: this.index, quill: this.innerQuill, selected: this.selected})
+      this.updatePage({index: this.index, selected: this.selected})
     },
     configureListeners () {
       let quill = this.innerQuill
@@ -56,12 +61,17 @@ export default {
         // console.log(quill.getBounds(quill.getLength()).bottom > vm.bottomLimit)
       })
     },
+    configureWhitelists () {
+      var Size = Quill.import('attributors/style/size')
+      Size.whitelist = ['12px', '16px', '32px']
+      Quill.register(Size, true)
+    },
     deleteBlank () {
       if (this.innerQuill.getLength() === 1) {
         this.deletePage(this.index)
       }
     },
-    ...mapActions(['updatePage', 'deletePage'])
+    ...mapActions(['deletePage', 'updatePage'])
   }
 }
 </script>

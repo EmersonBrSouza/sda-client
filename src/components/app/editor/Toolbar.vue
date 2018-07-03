@@ -13,7 +13,7 @@
         </div>
         <div class="column is-6 pl-10">
           <b-field label="Tamanho" custom-class="menu-label mb-5">
-            <b-input type="number" min="1"></b-input>
+            <b-input type="number" min="1" @input="selectFontSize" v-model="fontSize"></b-input>
           </b-field>
         </div>
       </div>
@@ -142,7 +142,8 @@ export default {
       underline: false,
       align: 'left',
       colors: '#000',
-      showPicker: false
+      showPicker: false,
+      fontSize: 12
     }
   },
   components: {
@@ -152,7 +153,7 @@ export default {
     className () {
       return this.selectedFont.name.split(' ').join('')
     },
-    ...mapGetters(['fonts', 'selectedFont', 'selectedFontIndex'])
+    ...mapGetters(['fonts', 'selectedFont', 'selectedFontIndex', 'selectedFontSize'])
   },
   methods: {
     selectFont (fontName) {
@@ -167,7 +168,10 @@ export default {
     updateColor (data) {
       this.colors = data.hex
     },
-    ...mapActions(['setFont'])
+    selectFontSize (data) {
+      this.setFontSize(data)
+    },
+    ...mapActions(['setFont', 'setFontSize'])
   }
 }
 </script>

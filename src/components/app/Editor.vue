@@ -8,7 +8,7 @@
         <div class="column is-1"></div>
         <div class="column is-10">
           <div class="toolbar"><button @click="createPage"> Nova Página </button></div>
-          <page v-for="page in pages" :key="page.index" :selected="page.selected" :index="page.index"  @click.native="selectQuill(page.index)"/>
+          <page v-for="page in pages" :key="page.index" :selected="page.selected" :index="page.index"  @click.native="selectPage(page.index)"/>
         </div>
       </div>
     </div>
@@ -38,10 +38,10 @@ export default {
     Toolbar
   },
   computed: {
-    ...mapGetters(['quill', 'pages'])
+    ...mapGetters(['selectedPage', 'pages'])
   },
   methods: {
-    ...mapActions(['selectQuill', 'createPage', 'deletePage'])
+    ...mapActions(['selectPage', 'createPage', 'deletePage'])
   },
   mounted () {
     let vm = this

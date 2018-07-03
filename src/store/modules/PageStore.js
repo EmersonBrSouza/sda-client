@@ -14,15 +14,17 @@ export const pages = {
   state: {
     pages: [ initialPage ],
     fonts: font,
-    color: '#000'
+    color: '#000',
+    fontSize: '12'
   },
   getters: {
     pages: state => state.pages,
-    quill: state => state.pages.filter(item => item.selected)[0],
+    selectedPage: state => state.pages.filter(item => item.selected)[0],
     fonts: state => state.fonts,
     selectedFont: state => state.fonts.filter(item => item.selected)[0],
     selectedFontIndex: state => state.fonts.filter(item => item.selected)[0].index,
-    selectedColor: state => state.color
+    selectedColor: state => state.color,
+    selectedFontSize: state => state.fontSize
   },
   actions: {
     createPage ({ commit }) {
@@ -34,15 +36,18 @@ export const pages = {
     deletePage ({ commit }, payload) {
       commit('DELETE_PAGE', payload)
     },
-    selectQuill ({ commit, getters }, payload) {
-      if (getters.quill.index === payload) return
-      commit('SET_QUILL', payload)
+    selectPage ({ commit, getters }, payload) {
+      if (getters.selectedPage.index === payload) return
+      commit('SET_SELECTED_PAGE', payload)
     },
     setFont ({ commit }, payload) {
       commit('SET_FONT', payload)
     },
     setColor ({ commit }, payload) {
       commit('SET_COLOR', payload)
+    },
+    setFontSize ({ commit }, payload) {
+      commit('SET_FONT_SIZE', payload)
     }
   },
   mutations: {
@@ -51,16 +56,30 @@ export const pages = {
       state.pages.push({ index: maxIndex, selected: false })
     },
     UPDATE_PAGE (state, payload) {
-      state.pages.map(item => {
-        if (item.index === payload.index) Object.assign(item, payload)
-      })
+      // state.pages.map(item => {
+      //   if (item.index === payload.index) Object.assign(item, payload)
+      // })
     },
     DELETE_PAGE (state, payload) {
+      let nextSelected = function () {
+        let minDiff = Number.MAX_SAFE_INTEGER
+
+        for (let i = 0; i < state.pages.length; i++) {
+          let isLessThanPayload = Math.abs(payload - state.pages[i].index) < minDiff
+          let notSameIndex = state.pages[i].index !== payload
+
+          if (isLessThanPayload && notSameIndex) {
+            minDiff = state.pages[i].index
+          }
+        }
+        return minDiff
+      }
       state.pages = state.pages.filter(item => {
+        if (item.index === nextSelected()) item.selected = true
         if (item.index !== payload || state.pages.length === 1) return item
       })
     },
-    SET_QUILL (state, payload) {
+    SET_SELECTED_PAGE (state, payload) {
       state.pages.map(item => {
         item.selected = false
         if (item.index === payload) {
@@ -76,6 +95,9 @@ export const pages = {
     },
     SET_COLOR (state, payload) {
       state.color = payload
+    },
+    SET_FONT_SIZE (state, payload) {
+      state.fontSize = payload
     }
   }
 }
