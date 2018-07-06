@@ -15,7 +15,9 @@ export const pages = {
     pages: [ initialPage ],
     fonts: font,
     color: '#000',
-    fontSize: '12'
+    fontSize: '12',
+    fontStyle: { italic: false, bold: false, underline: false },
+    align: 'left'
   },
   getters: {
     pages: state => state.pages,
@@ -24,7 +26,9 @@ export const pages = {
     selectedFont: state => state.fonts.filter(item => item.selected)[0],
     selectedFontIndex: state => state.fonts.filter(item => item.selected)[0].index,
     selectedColor: state => state.color,
-    selectedFontSize: state => state.fontSize
+    selectedFontSize: state => state.fontSize + 'px',
+    selectedFontStyle: state => state.fontStyle,
+    selectedAlign: state => state.align
   },
   actions: {
     createPage ({ commit }) {
@@ -48,6 +52,12 @@ export const pages = {
     },
     setFontSize ({ commit }, payload) {
       commit('SET_FONT_SIZE', payload)
+    },
+    setAlign ({ commit }, payload) {
+      commit('SET_ALIGN', payload)
+    },
+    updateFontStyle ({ commit }, payload) {
+      commit('SET_FONT_STYLE', payload)
     }
   },
   mutations: {
@@ -93,11 +103,17 @@ export const pages = {
         if (item.index === payload) item.selected = true
       })
     },
+    SET_ALIGN (state, payload) {
+      state.align = payload
+    },
     SET_COLOR (state, payload) {
       state.color = payload
     },
     SET_FONT_SIZE (state, payload) {
       state.fontSize = payload
+    },
+    SET_FONT_STYLE (state, payload) {
+      state.fontStyle[payload.property] = payload.value
     }
   }
 }

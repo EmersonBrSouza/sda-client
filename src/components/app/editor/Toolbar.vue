@@ -61,7 +61,7 @@
                       <b-icon icon="caret-down"></b-icon>
                   </button>
 
-                  <b-dropdown-item :value="align === 'left'" @click="setAlign('left')">
+                  <b-dropdown-item :value="align === 'left'" @click="selectAlign('left')">
                       <div class="media">
                           <b-icon class="media-left" icon="align-left"></b-icon>
                           <div class="media-content">
@@ -70,7 +70,7 @@
                       </div>
                   </b-dropdown-item>
 
-                  <b-dropdown-item :value="align === 'right'" @click="setAlign('right')">
+                  <b-dropdown-item :value="align === 'right'" @click="selectAlign('right')">
                       <div class="media">
                           <b-icon class="media-left" icon="align-right"></b-icon>
                           <div class="media-content">
@@ -79,7 +79,7 @@
                       </div>
                   </b-dropdown-item>
 
-                  <b-dropdown-item :value="align === 'center'" @click="setAlign('center')">
+                  <b-dropdown-item :value="align === 'center'" @click="selectAlign('center')">
                       <div class="media">
                           <b-icon class="media-left" icon="align-center"></b-icon>
                           <div class="media-content">
@@ -88,7 +88,7 @@
                       </div>
                   </b-dropdown-item>
 
-                  <b-dropdown-item :value="align === 'justify'" @click="setAlign('justify')">
+                  <b-dropdown-item :value="align === 'justify'" @click="selectAlign('justify')">
                       <div class="media">
                           <b-icon class="media-left" icon="align-justify"></b-icon>
                           <div class="media-content">
@@ -159,19 +159,23 @@ export default {
     selectFont (fontName) {
       this.setFont(fontName)
     },
-    setAlign (align) {
+    selectAlign (align) {
       this.align = align
+      this.setAlign(align)
     },
     toggle (property) {
+      let styles = ['italic', 'bold', 'underline']
       this[property] = !this[property]
+      if (styles.includes(property)) this.updateFontStyle({ property: property, value: this[property] })
     },
     updateColor (data) {
       this.colors = data.hex
+      this.setColor(data.hex)
     },
     selectFontSize (data) {
       this.setFontSize(data)
     },
-    ...mapActions(['setFont', 'setFontSize'])
+    ...mapActions(['setAlign', 'setFont', 'setFontSize', 'setColor', 'updateFontStyle'])
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="page mt-15" :class="{'selected':selected}" :ref="`quill${index}`" @keydown.delete="deleteBlank">
+  <div class="page mt-15" :class="{'selected':selected}" :ref="`quill${index}`" @keydown.delete.prevent="deleteBlank">
   </div>
 </template>
 
@@ -8,6 +8,7 @@ import IQuill from 'quill'
 import { mapActions, mapGetters } from 'vuex'
 const Quill = IQuill
 
+var Size = Quill.import('attributors/style/size')
 export default {
   props: {
     selected: {
@@ -26,21 +27,37 @@ export default {
     bottomLimit () {
       return 1123
     },
-    ...mapGetters(['pages', 'selectedFontSize'])
+    fontStyle () {
+      let { bold, italic, underline } = this.selectedFontStyle
+
+      this.innerQuill.format('bold', bold)
+      this.innerQuill.format('italic', italic)
+      this.innerQuill.format('underline', underline)
+      console.log('style')
+      return { bold, italic, underline }
+    },
+    ...mapGetters(['pages', 'selectedFontSize', 'selectedColor', 'selectedFontStyle', 'selectedAlign'])
   },
   watch: {
+    selectedColor () {
+      this.innerQuill.format('color', this.selectedColor)
+    },
     selectedFontSize () {
-      console.log('oi')
-      this.innerQuill.format('italic', true)
-      this.innerQuill.format('color', 'red')
-      this.innerQuill.format('size', '32px')
+      if (Size.whitelist.indexOf(this.selectedFontSize) === -1) {
+        Size.whitelist.push(this.selectedFontSize)
+        Quill.register(Size, true)
+      }
+      this.innerQuill.format('size', this.selectedFontSize)
+    },
+    selectedAlign () {
+      this.innerQuill.format('align', this.selectedAlign)
     }
   },
   methods: {
     initialize () {
       var options = {
         formats: [
-          'color', 'bold', 'underline', 'italic', 'font', 'size'
+          'color', 'bold', 'underline', 'italic', 'font', 'size', 'align'
         ]
       }
 
@@ -57,21 +74,31 @@ export default {
         if (quill.getBounds(quill.getLength()).bottom > vm.bottomLimit) {
           vm.$parent.$emit('fullPage', { index: this.index })
         }
-        // console.log(quill.getBounds(quill.getLength()))
-        // console.log(quill.getBounds(quill.getLength()).bottom > vm.bottomLimit)
       })
     },
     configureWhitelists () {
-      var Size = Quill.import('attributors/style/size')
-      Size.whitelist = ['12px', '16px', '32px']
+      Size.whitelist = ['12px']
       Quill.register(Size, true)
     },
-    deleteBlank () {
+    deleteBlank (evt) {
+      this.preventCursor()
       if (this.innerQuill.getLength() === 1) {
         this.deletePage(this.index)
+        if (this.pages.length > 1) {
+          this.innerQuill = null
+        }
       }
     },
-    ...mapActions(['deletePage', 'updatePage'])
+    preventCursor () {
+      if (this.innerQuill.getLine(this.innerQuill.getSelection().index)[1] === 0) {
+        this.innerQuill.format('color', this.selectedColor)
+        this.innerQuill.format('size', this.selectedFontSize)
+        this.innerQuill.format('bold', this.selectedFontStyle.bold)
+        this.innerQuill.format('italic', this.selectedFontStyle.italic)
+        this.innerQuill.format('underline', this.selectedFontStyle.underline)
+      }
+    },
+    ...mapActions(['deletePage', 'updatePage', 'setColor'])
   }
 }
 </script>
@@ -91,14 +118,5 @@ export default {
   }
   .ql-editor{
     min-height: inherit;
-    &.ql-blank::before {
-      color: rgba(0,0,0,0.6);
-      content: attr(data-placeholder);
-      font-style: italic;
-      left: 15px;
-      pointer-events: none;
-      position: relative;
-      right: 15px;
-    }
   }
 </style>
