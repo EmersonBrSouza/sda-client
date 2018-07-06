@@ -25,7 +25,7 @@ $(window).on('scroll', function (e) {
   var fix = $('.dynamic-fix')
   var navbarHeight = $('.is-fixed-top').height()
 
-  if ($(window).scrollTop() > navbarHeight) {
+  if ($(window).scrollTop() > navbarHeight - 50) {
     fix.css('top', navbarHeight)
     fix.addClass('fix-top')
   } else {

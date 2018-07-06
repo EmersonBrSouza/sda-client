@@ -27,15 +27,14 @@ export const pages = {
     selectedFontIndex: state => state.fonts.filter(item => item.selected)[0].index,
     selectedColor: state => state.color,
     selectedFontSize: state => state.fontSize + 'px',
-    selectedFontStyle: state => state.fontStyle,
+    bold: state => state.fontStyle.bold,
+    italic: state => state.fontStyle.italic,
+    underline: state => state.fontStyle.underline,
     selectedAlign: state => state.align
   },
   actions: {
     createPage ({ commit }) {
       commit('CREATE_PAGE')
-    },
-    updatePage ({ commit }, payload) {
-      commit('UPDATE_PAGE', payload)
     },
     deletePage ({ commit }, payload) {
       commit('DELETE_PAGE', payload)
@@ -64,11 +63,6 @@ export const pages = {
     CREATE_PAGE (state) {
       let maxIndex = Math.max.apply(Math, state.pages.map(item => item.index)) + 1
       state.pages.push({ index: maxIndex, selected: false })
-    },
-    UPDATE_PAGE (state, payload) {
-      // state.pages.map(item => {
-      //   if (item.index === payload.index) Object.assign(item, payload)
-      // })
     },
     DELETE_PAGE (state, payload) {
       let nextSelected = function () {

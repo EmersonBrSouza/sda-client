@@ -1,14 +1,15 @@
 <template>
-  <div class="page mt-15" :class="{'selected':selected}" :ref="`quill${index}`" @keydown.delete.prevent="deleteBlank">
+  <div :id="index" class="page mt-15" :class="{'selected':selected}" :ref="`quill${index}`" @keydown.delete.prevent="deleteBlank">
   </div>
 </template>
 
 <script>
 import IQuill from 'quill'
 import { mapActions, mapGetters } from 'vuex'
-const Quill = IQuill
 
+const Quill = IQuill
 var Size = Quill.import('attributors/style/size')
+
 export default {
   props: {
     selected: {
@@ -27,18 +28,18 @@ export default {
     bottomLimit () {
       return 1123
     },
-    fontStyle () {
-      let { bold, italic, underline } = this.selectedFontStyle
-
-      this.innerQuill.format('bold', bold)
-      this.innerQuill.format('italic', italic)
-      this.innerQuill.format('underline', underline)
-      console.log('style')
-      return { bold, italic, underline }
-    },
-    ...mapGetters(['pages', 'selectedFontSize', 'selectedColor', 'selectedFontStyle', 'selectedAlign'])
+    ...mapGetters(['pages', 'selectedFontSize', 'selectedColor', 'bold', 'italic', 'underline', 'selectedAlign'])
   },
   watch: {
+    bold () {
+      this.innerQuill.format('bold', this.bold)
+    },
+    italic () {
+      this.innerQuill.format('italic', this.italic)
+    },
+    underline () {
+      this.innerQuill.format('underline', this.underline)
+    },
     selectedColor () {
       this.innerQuill.format('color', this.selectedColor)
     },
@@ -65,7 +66,6 @@ export default {
       this.innerQuill = new Quill(this.$refs[`quill${this.index}`], options)
       this.innerQuill.enable(true)
       this.configureListeners()
-      this.updatePage({index: this.index, selected: this.selected})
     },
     configureListeners () {
       let quill = this.innerQuill
@@ -74,6 +74,8 @@ export default {
         if (quill.getBounds(quill.getLength()).bottom > vm.bottomLimit) {
           vm.$parent.$emit('fullPage', { index: this.index })
         }
+        // console.log(quill.getBounds(quill.getLength()).top - 50)
+        // window.scrollTo(0, quill.getBounds(quill.getLength()).top - 50)
       })
     },
     configureWhitelists () {
@@ -93,12 +95,12 @@ export default {
       if (this.innerQuill.getLine(this.innerQuill.getSelection().index)[1] === 0) {
         this.innerQuill.format('color', this.selectedColor)
         this.innerQuill.format('size', this.selectedFontSize)
-        this.innerQuill.format('bold', this.selectedFontStyle.bold)
-        this.innerQuill.format('italic', this.selectedFontStyle.italic)
-        this.innerQuill.format('underline', this.selectedFontStyle.underline)
+        this.innerQuill.format('bold', this.bold)
+        this.innerQuill.format('italic', this.italic)
+        this.innerQuill.format('underline', this.underline)
       }
     },
-    ...mapActions(['deletePage', 'updatePage', 'setColor'])
+    ...mapActions(['deletePage', 'setColor'])
   }
 }
 </script>
