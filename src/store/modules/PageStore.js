@@ -1,13 +1,13 @@
 var initialPage = { index: 1, selected: true }
 var font = [
-  { index: 1, name: 'Arial', fontName: "'Arial', sans-serif;", selected: true },
-  { index: 2, name: 'Bitter', fontName: "'Bitter', serif;", selected: false },
-  { index: 3, name: 'Catamaran', fontName: "'Catamaran', sans-serif;", selected: false },
-  { index: 4, name: 'IM Fell English SC', fontName: "'IM Fell English SC', serif;", selected: false },
-  { index: 5, name: 'Indie Flower', fontName: "'Indie Flower', cursive;", selected: false },
-  { index: 6, name: 'Nunito', fontName: "'Nunito', sans-serif;", selected: false },
-  { index: 7, name: 'Raleway', fontName: "'Raleway', sans-serif;", selected: false },
-  { index: 8, name: 'Roboto', fontName: "'Roboto', sans-serif;", selected: false }
+  { index: 1, name: 'Arial', fontName: "'Arial', sans-serif;", selected: true, class: 'arial' },
+  { index: 2, name: 'Bitter', fontName: "'Bitter', serif;", selected: false, class: 'bitter' },
+  { index: 3, name: 'Catamaran', fontName: "'Catamaran', sans-serif;", selected: false, class: 'catamaran' },
+  { index: 4, name: 'Courgette', fontName: "'Courgette', cursive;", selected: false, class: 'courgette' },
+  { index: 5, name: 'Indie Flower', fontName: "'Indie Flower', cursive;", selected: false, class: 'indieflower' },
+  { index: 6, name: 'Nunito', fontName: "'Nunito', sans-serif;", selected: false, class: 'nunito' },
+  { index: 7, name: 'Raleway', fontName: "'Raleway', sans-serif;", selected: false, class: 'raleway' },
+  { index: 8, name: 'Roboto', fontName: "'Roboto', sans-serif;", selected: false, class: 'roboto' }
 ]
 
 export const pages = {
@@ -25,6 +25,7 @@ export const pages = {
     fonts: state => state.fonts,
     selectedFont: state => state.fonts.filter(item => item.selected)[0],
     selectedFontIndex: state => state.fonts.filter(item => item.selected)[0].index,
+    selectedFontFamily: state => state.fonts.filter(item => item.selected)[0].class,
     selectedColor: state => state.color,
     selectedFontSize: state => state.fontSize + 'px',
     bold: state => state.fontStyle.bold,

@@ -9,7 +9,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 const Quill = IQuill
 var Size = Quill.import('attributors/style/size')
-
+var Font = Quill.import('formats/font')
 export default {
   props: {
     selected: {
@@ -28,7 +28,7 @@ export default {
     bottomLimit () {
       return 1123
     },
-    ...mapGetters(['pages', 'selectedFontSize', 'selectedColor', 'bold', 'italic', 'underline', 'selectedAlign'])
+    ...mapGetters(['pages', 'selectedFontFamily', 'selectedFontSize', 'selectedColor', 'bold', 'italic', 'underline', 'selectedAlign'])
   },
   watch: {
     bold () {
@@ -49,6 +49,13 @@ export default {
         Quill.register(Size, true)
       }
       this.innerQuill.format('size', this.selectedFontSize)
+    },
+    selectedFontFamily () {
+      if (Font.whitelist.indexOf(this.selectedFontFamily) === -1) {
+        Font.whitelist.push(this.selectedFontFamily)
+        Quill.register(Font, true)
+      }
+      this.innerQuill.format('font', this.selectedFontFamily)
     },
     selectedAlign () {
       console.log(this.selectedAlign)
@@ -82,6 +89,9 @@ export default {
     configureWhitelists () {
       Size.whitelist = ['12px']
       Quill.register(Size, true)
+
+      Font.whitelist = ['arial', 'bitter', 'catamaran', 'courgette', 'indieflower', 'nunito', 'raleway', 'roboto']
+      Quill.register(Font, true)
     },
     deleteBlank (evt) {
       this.preventCursor()
@@ -99,6 +109,7 @@ export default {
         this.innerQuill.format('bold', this.bold)
         this.innerQuill.format('italic', this.italic)
         this.innerQuill.format('underline', this.underline)
+        this.innerQuill.format('font', this.selectedFontFamily)
       }
     },
     ...mapActions(['deletePage', 'setColor'])
@@ -122,4 +133,12 @@ export default {
   .ql-editor{
     min-height: inherit;
   }
+  .ql-font-arial { font-family: 'Arial', sans-serif; }
+  .ql-font-bitter  { font-family: 'Bitter', serif; }
+  .ql-font-catamaran  { font-family: 'Catamaran', sans-serif; }
+  .ql-font-courgette  { font-family: 'Courgette', cursive; }
+  .ql-font-indieflower  { font-family: 'Indie Flower', cursive; }
+  .ql-font-nunito  { font-family: 'Nunito', sans-serif; }
+  .ql-font-raleway  { font-family: 'Raleway', sans-serif; }
+  .ql-font-roboto  { font-family: 'Roboto', sans-serif; }
 </style>

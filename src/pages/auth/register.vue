@@ -1,7 +1,7 @@
 <template>
     <div class="columns max-height" :style="backgroundConfig">
         <div class="column is-2"></div>
-        <div class="column is-3 mt-15 mt-lg-60">
+        <div class="column is-3-fullhd is-4-desktop mt-15 mt-lg-60">
             <div class="columns is-multiline">
                 <div class="column is-12">
                     <h1 class="title is-3 has-text-left">Crie a sua conta agora. <br> É simples!</h1>
