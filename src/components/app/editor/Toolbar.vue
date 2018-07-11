@@ -13,7 +13,7 @@
         </div>
         <div class="column is-6 pl-10">
           <b-field label="Tamanho" custom-class="menu-label mb-5">
-            <b-input type="number" min="1" @input="selectFontSize" v-model="fontSize"></b-input>
+            <b-input type="number" min="1" @blur="selectFontSize" v-model="fontSize"></b-input>
           </b-field>
         </div>
       </div>
@@ -172,8 +172,8 @@ export default {
       this.colors = data.hex
       this.setColor(data.hex)
     },
-    selectFontSize (data) {
-      this.setFontSize(data)
+    selectFontSize () {
+      this.setFontSize(this.fontSize)
     },
     ...mapActions(['setAlign', 'setFont', 'setFontSize', 'setColor', 'updateFontStyle'])
   }
@@ -200,8 +200,7 @@ export default {
     border-right: 1px solid #eee;
   }
   .button.enabled{
-    border: 1px solid green;
-    background: green;
+    border: 2px solid #7957d5;
   }
   .color-picker{
     z-index: 10001;

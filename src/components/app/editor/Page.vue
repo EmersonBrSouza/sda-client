@@ -51,6 +51,7 @@ export default {
       this.innerQuill.format('size', this.selectedFontSize)
     },
     selectedAlign () {
+      console.log(this.selectedAlign)
       this.innerQuill.format('align', this.selectedAlign)
     }
   },
