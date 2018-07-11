@@ -2,3 +2,13 @@
     display: flex;
     justify-content: center;
 }
+
+.justify-content-between{
+    display: flex;
+    justify-content: space-between;
+}
+
+.align-self-end{
+    display: flex;
+    align-self: flex-end;
+}
