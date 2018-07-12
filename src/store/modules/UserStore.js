@@ -13,7 +13,8 @@ export const users = {
         return false
       } else return true
     },
-    getUsername: state => state.username
+    getUsername: state => state.username,
+    getUser: state => state.user
   },
   actions: {
     fetchUser ({ commit }, user) {

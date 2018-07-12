@@ -14,7 +14,7 @@
                                @completed='showButton'
                                :class="['handlee']"/>
                 </div>
-                <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" :duration="{ enter: 5900, leave: 800 }">>
+                <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" :duration="{ enter: 5900, leave: 800 }">
                     <div class="column is-12 has-text-right" v-if="typer.showCitation" :key="save">
                         <span> - Johann Goethe</span>
                     </div>

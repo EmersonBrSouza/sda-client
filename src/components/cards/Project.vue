@@ -9,13 +9,13 @@
             <div class="card-content">
                 <div class="media">
                     <div class="media-content">
-                        <p class="title is-5">Título do Texto</p>
+                        <p class="title is-5"> {{ title }} </p>
                         <p class="subtitle is-6">
                             <b-icon size="is-small" icon="eye"></b-icon>
-                            <span>xx visualizações</span>
+                            <span>{{ views }} visualizações</span>
                         </p>
                         <p class="subtitle is-6">
-                            <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                            <span> Criado em: {{ formattedDate }} </span>
                         </p>
                     </div>
                 </div>
@@ -23,3 +23,30 @@
         </div>
     </div>
 </template>
+
+<script>
+import date from 'date-fns'
+import { pt } from 'date-fns/locale/pt'
+
+export default {
+  props: {
+    title: {
+      type: String,
+      default: 'Título do Texto'
+    },
+    views: {
+      type: Number,
+      default: 0
+    },
+    createdAt: {
+      type: Number,
+      default: 11111111
+    }
+  },
+  computed: {
+    formattedDate () {
+      return date.format(new Date(this.createdAt), 'DD/MM/YYYY', { locale: pt })
+    }
+  }
+}
+</script>
