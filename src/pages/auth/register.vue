@@ -92,7 +92,9 @@ export default {
             var user = auth.currentUser
 
             db.collection('users').doc(user.uid).set({
-              name: name
+              name: name,
+              email: email,
+              notifications: []
             }).then(function () {
               vm.fetchUser({user, name, firstLogin: true})
               vm.$router.push({ name: 'login' })

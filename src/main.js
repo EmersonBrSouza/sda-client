@@ -8,10 +8,12 @@ import 'buefy/lib/buefy.css'
 import 'animate.css/animate.css'
 import { store } from './store/MainStore'
 import Vuelidate from 'vuelidate'
+import VueTimers from 'vue-timers'
 
 Vue.config.productionTip = false
 Vue.use(Buefy, { defaultIconPack: 'fas' })
 Vue.use(Vuelidate)
+Vue.use(VueTimers)
 
 /* eslint-disable no-new */
 new Vue({
