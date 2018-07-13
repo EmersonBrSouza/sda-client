@@ -92,6 +92,7 @@ export default {
             var user = auth.currentUser
 
             db.collection('users').doc(user.uid).set({
+              token: user.uid,
               name: name,
               email: email,
               notifications: []
