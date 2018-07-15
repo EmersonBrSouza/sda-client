@@ -21,7 +21,10 @@
                                 <b-field label="Convidar Membros"
                                          :type ="errors.email ? 'is-danger': ''"
                                          :message="errors.email">
-                                    <b-input type="email" placeholder="membro@email.com" v-model="member" @keydown.enter.native="addMember"></b-input>
+                                    <b-input type="email" placeholder="membro@email.com"
+                                            v-model="member"
+                                            @blur="addMember"
+                                            @keydown.enter.native="addMember"></b-input>
                                 </b-field>
                             </div>
                         </div>
@@ -65,7 +68,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getUser'])
+    ...mapGetters(['getUser', 'getUsername'])
   },
   props: {
     open: {
@@ -78,6 +81,7 @@ export default {
       this.$emit('close')
     },
     addMember () {
+      if (this.member.length === 0) return
       this.checkEmailOnServer(this.member)
     },
     createDocument () {
@@ -87,6 +91,7 @@ export default {
         return
       }
 
+      let vm = this
       let data = {}
 
       data.title = this.title
@@ -96,13 +101,14 @@ export default {
       db.collection('projects')
         .add(data)
         .then(function (doc) {
-          console.log(doc.id)
+          vm.$emit('projectCreated', doc.id)
+          vm.sendNotifications(doc.id)
         })
     },
     checkEmailOnServer (email) {
       if (email === this.getUser.email || this.members.includes(email)) return
       let vm = this
-      // let response = await db.collection('users').where('email', '==', email).get()
+
       db.collection('users')
         .where('email', '==', email)
         .get()
@@ -124,8 +130,32 @@ export default {
         stringify += '"' + el.token + '": false,'
       })
       stringify = `{ ${stringify} "${this.getUser.uid}":true }`
-      console.log(stringify)
       return JSON.parse(stringify)
+    },
+    sendNotifications (projectId) {
+      let notification = {
+        emitter: {name: this.getUsername, id: this.getUser.uid},
+        project: {title: this.title, id: projectId},
+        type: 'INVITE',
+        alreadyRead: false
+      }
+
+      this.members.map((item) => {
+        let dbRef = db.collection('users').doc(item.token)
+        let vm = this
+
+        db.runTransaction((t) => {
+          return t.get(dbRef).then((doc) => {
+            if (!doc.exists) return
+
+            let notifications = doc.data().notifications || []
+            notifications.push(notification)
+            t.set(dbRef, { notifications: notifications }, { merge: true })
+            vm.closeModal()
+          })
+        })
+        return item
+      })
     },
     removeMember (email) {
       this.members = this.members.filter((item) => { if (item.email !== email) return item })

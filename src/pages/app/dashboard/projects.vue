@@ -48,7 +48,12 @@ export default {
     ProjectModal
   },
   created () {
+    let vm = this
+
     this.fetchProjects()
+    this.$on('projectCreated', function (data) {
+      vm.fetchProjects()
+    })
   },
   data () {
     return {

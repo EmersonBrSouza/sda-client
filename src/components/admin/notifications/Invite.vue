@@ -1,6 +1,6 @@
 <template>
   <b-message type="is-info">
-    <span>{{ emitter.name }} convidou você para editar o documento {{ project.title }} </span> <br>
+    <span>{{ emitter.name }} convidou você para editar o documento "{{ project.title }}" </span> <br>
     <div class="is-pulled-right mt-15">
       <button class="button is-success" @click="response(true)"> Aceitar </button>
       <button class="button is-danger" @click="response(false)"> Recusar </button>
@@ -18,11 +18,16 @@ export default {
     project: {
       type: Object,
       default: () => { return { title: 'Título do documento' } }
+    },
+    id: {
+      type: Number,
+      default: 0
     }
   },
   methods: {
     response (response) {
       let data = {
+        id: this.id,
         emitter: this.emitter,
         project: this.project,
         response: response

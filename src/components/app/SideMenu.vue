@@ -67,13 +67,13 @@ export default {
           vm.notificationsNumber = result.length
         })
     }
-  }// ,
-//   timers: {
-//     getNotifications: {
-//       time: 60000,
-//       autostart: true,
-//       repeat: true
-//     }
-//   }
+  },
+  timers: {
+    getNotifications: {
+      time: 60000,
+      autostart: true,
+      repeat: true
+    }
+  }
 }
 </script>

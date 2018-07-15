@@ -28,6 +28,7 @@
               <div v-else class="column is-12 has-text-centered mt-30" v-for="(notification, index) in notifications" :key="index">
                 <invite-notification
                   v-if="notification.type == 'INVITE'"
+                  :id="notification.index"
                   :emitter="notification.emitter"
                   :project="notification.project"
                   @response="responseInvite"/>
@@ -77,7 +78,12 @@ export default {
         .get()
         .then(function (doc) {
           if (!doc.exists) return
-          let result = doc.data().notifications.filter(notification => !notification.alreadyRead)
+          let result = doc.data().notifications.filter((notification, index) => {
+            if (!notification.alreadyRead) {
+              notification.index = index
+              return notification
+            }
+          })
           vm.notifications = result
         })
     },
@@ -94,7 +100,22 @@ export default {
         docRef.update(data)
       }
 
-      this.getNotifications()
+      this.resetNotification(payload.id)
+    },
+    resetNotification (notificationId) {
+      let dbRef = db.collection('users').doc(this.getUser.uid)
+      let vm = this
+
+      db.runTransaction((t) => {
+        return t.get(dbRef).then((doc) => {
+          if (!doc.exists) return
+
+          let notifications = doc.data().notifications || []
+          notifications[notificationId].alreadyRead = true
+          t.set(dbRef, { notifications: notifications }, { merge: true })
+          vm.getNotifications()
+        })
+      })
     }
   }
 }

@@ -9,12 +9,12 @@
             <div class="card-content">
                 <div class="media">
                     <div class="media-content">
-                        <p class="title is-5"> {{ title }} </p>
-                        <p class="subtitle is-6">
+                        <p class="title is-6"> {{ title }} </p>
+                        <p class="subtitle is-6 mt-10 mb-5">
                             <b-icon size="is-small" icon="eye"></b-icon>
                             <span>{{ views }} visualizações</span>
                         </p>
-                        <p class="subtitle is-6">
+                        <p class="subtitle is-7 pt-0">
                             <span> Criado em: {{ formattedDate }} </span>
                         </p>
                     </div>
