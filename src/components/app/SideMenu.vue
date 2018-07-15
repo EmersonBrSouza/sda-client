@@ -63,7 +63,7 @@ export default {
         .then(function (doc) {
           if (!doc.exists) return
 
-          let result = doc.data().notifications.filter(notification => !notification.alreadyReady)
+          let result = doc.data().notifications.filter(notification => !notification.alreadyRead)
           vm.notificationsNumber = result.length
         })
     }
@@ -72,7 +72,8 @@ export default {
     getNotifications: {
       time: 60000,
       autostart: true,
-      repeat: true
+      repeat: true,
+      immediate: true
     }
   }
 }

@@ -24,8 +24,10 @@
       <div class="column is-12">
         <div class="columns is-multiline">
           <project-card v-for="(project, index) in projects" :key="index"
+                        :selected="selectedProject.id == project.id"
+                        @click.native="selectProject(project.id)"
                         :title="project.title"
-                        :createdAt="project.createdAt">
+                        :createdAt="11111111">
           </project-card>
         </div>
       </div>
@@ -62,6 +64,14 @@ export default {
     }
   },
   computed: {
+    selectedProject (compare) {
+      let selected = this.projects.filter(item => {
+        if (item.selected) return item
+      })[0]
+
+      if (!selected) return {id: 0}
+      return selected
+    },
     ...mapGetters(['getUser'])
   },
   methods: {
@@ -76,13 +86,22 @@ export default {
         .get()
         .then(function (querySnapshot) {
           querySnapshot.forEach(function (doc) {
-            vm.projects.push({title: doc.data().title, createdAt: doc.data().createdAt})
+            vm.projects.push({id: doc.id, title: doc.data().title, createdAt: doc.data().createdAt, selected: false})
           })
           vm.$set(vm, 'isLoading', false)
         })
         .catch(function (error) {
           console.log('Error getting document:', error)
         })
+    },
+    selectProject (id) {
+      this.projects.map(item => {
+        item.selected = false
+        if (item.id === id) {
+          item.selected = true
+        }
+        return item
+      })
     }
   },
   props: {
@@ -93,3 +112,7 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  // .card.selected
+</style>

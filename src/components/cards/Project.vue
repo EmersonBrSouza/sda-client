@@ -1,8 +1,19 @@
 <template>
     <div class="column is-3-fullhd is-4-desktop">
-        <div class="card">
+        <div class="card" :class="{'selected': selected}">
             <div class="card-image">
                 <figure class="image is-4by3">
+                    <span class="card-options">
+                        <b-dropdown v-model="navigation" position="is-bottom-left">
+                            <a class="navbar-item" slot="trigger">
+                                <b-icon icon="ellipsis-v" size="is-small"></b-icon>
+                            </a>
+                            <b-dropdown-item custom>
+                                Convidar Membros
+                            </b-dropdown-item>
+                            <hr class="dropdown-divider">
+                        </b-dropdown>
+                    </span>
                     <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
                 </figure>
             </div>
@@ -41,6 +52,10 @@ export default {
     createdAt: {
       type: Number,
       default: 11111111
+    },
+    selected: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -50,3 +65,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .options{
+      z-index: 400;
+  }
+</style>

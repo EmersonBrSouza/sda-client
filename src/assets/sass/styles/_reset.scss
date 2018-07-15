@@ -50,3 +50,15 @@ textarea{
 .fas.fa-eye.fa-lg{
     opacity: 0.3 !important;
 }
+
+div.card.selected{
+  border: 3px solid #5fb2ef;
+}
+
+span.card-options{
+  z-index: 400;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
