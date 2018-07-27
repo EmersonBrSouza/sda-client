@@ -7,7 +7,7 @@
       <div class="columns mt-10 bg-document">
         <div class="column is-1"></div>
         <div class="column is-10">
-          <div class="toolbar"><button @click="createPage"> Nova Página </button></div>
+          <div class="toolbar"><button @click="pingServer"> Nova Página </button></div>
           <page v-for="page in pages" :key="page.index" :selected="page.selected" :index="page.index"  @click.native="selectPage(page.index)"/>
         </div>
       </div>

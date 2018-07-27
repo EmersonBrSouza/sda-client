@@ -5,6 +5,7 @@
 
 <script>
 import IQuill from 'quill'
+import Delta from 'quill-delta/lib/delta'
 import { mapActions, mapGetters } from 'vuex'
 
 const Quill = IQuill
@@ -58,17 +59,12 @@ export default {
       this.innerQuill.format('font', this.selectedFontFamily)
     },
     selectedAlign () {
-      console.log(this.selectedAlign)
       this.innerQuill.format('align', this.selectedAlign)
     }
   },
   methods: {
     initialize () {
-      var options = {
-        formats: [
-          'color', 'bold', 'underline', 'italic', 'font', 'size', 'align'
-        ]
-      }
+      var options = { formats: ['color', 'bold', 'underline', 'italic', 'font', 'size', 'align'] }
 
       this.configureWhitelists()
       this.innerQuill = new Quill(this.$refs[`quill${this.index}`], options)
@@ -78,12 +74,13 @@ export default {
     configureListeners () {
       let quill = this.innerQuill
       let vm = this
+
       quill.on('text-change', function (delta, oldDelta, source) {
+        vm.sendRefresh(delta, oldDelta)
+
         if (quill.getBounds(quill.getLength()).bottom > vm.bottomLimit) {
           vm.$parent.$emit('fullPage', { index: this.index })
         }
-        // console.log(quill.getBounds(quill.getLength()).top - 50)
-        // window.scrollTo(0, quill.getBounds(quill.getLength()).top - 50)
       })
     },
     configureWhitelists () {
@@ -112,7 +109,23 @@ export default {
         this.innerQuill.format('font', this.selectedFontFamily)
       }
     },
+    sendRefresh (delta, oldDelta) {
+      this.$socket.emit('commit', { execute: delta })
+    },
     ...mapActions(['deletePage', 'setColor'])
+  },
+  sockets: {
+    connect: function () {
+      console.log('socket connected')
+    },
+    customEmit: function (val) {
+      console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+    },
+    execute: function (val) {
+      console.log(val.response)
+      let delta = new Delta(val.response)
+      // this.innerQuill.setContents(delta)
+    }
   }
 }
 </script>

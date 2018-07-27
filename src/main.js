@@ -8,10 +8,12 @@ import 'buefy/lib/buefy.css'
 import 'animate.css/animate.css'
 import { store } from './store/MainStore'
 import Vuelidate from 'vuelidate'
+import VueSocketio from 'vue-socket.io'
 import VueTimers from 'vue-timers'
 
 Vue.config.productionTip = false
 Vue.use(Buefy, { defaultIconPack: 'fas' })
+Vue.use(VueSocketio, 'http://localhost:3000')
 Vue.use(Vuelidate)
 Vue.use(VueTimers)
 
