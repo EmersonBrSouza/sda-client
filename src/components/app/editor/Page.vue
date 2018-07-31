@@ -6,6 +6,7 @@
 <script>
 import IQuill from 'quill'
 import Delta from 'quill-delta/lib/delta'
+import axios from 'axios'
 import { mapActions, mapGetters } from 'vuex'
 
 const Quill = IQuill
@@ -29,7 +30,7 @@ export default {
     bottomLimit () {
       return 1123
     },
-    ...mapGetters(['pages', 'selectedFontFamily', 'selectedFontSize', 'selectedColor', 'bold', 'italic', 'underline', 'selectedAlign'])
+    ...mapGetters(['pages', 'selectedFontFamily', 'selectedFontSize', 'selectedColor', 'bold', 'italic', 'underline', 'selectedAlign', 'getUser'])
   },
   watch: {
     bold () {
@@ -76,7 +77,10 @@ export default {
       let vm = this
 
       quill.on('text-change', function (delta, oldDelta, source) {
-        vm.sendRefresh(delta, oldDelta)
+        console.log(source)
+        if (source === 'user') {
+          vm.sendRefresh(delta, oldDelta)
+        }
 
         if (quill.getBounds(quill.getLength()).bottom > vm.bottomLimit) {
           vm.$parent.$emit('fullPage', { index: this.index })
@@ -110,21 +114,51 @@ export default {
       }
     },
     sendRefresh (delta, oldDelta) {
-      this.$socket.emit('commit', { execute: delta })
+      this.$socket.emit('commit', { execute: delta, documentID: 'KYwpm2MMRKbkS4ysChSQ', userID: this.getUser.uid })
+    },
+    getRefresh () {
+      this.$socket.emit('pull', '')
     },
     ...mapActions(['deletePage', 'setColor'])
   },
   sockets: {
     connect: function () {
       console.log('socket connected')
+      let vm = this
+      let credentials = { documentID: 'KYwpm2MMRKbkS4ysChSQ', userID: this.getUser.uid }
+
+      axios.post('http://localhost:3000/join', credentials)
+        .then(function (response) {
+          console.log(response)
+          vm.$socket.emit('join', credentials)
+        })
+        .catch(function (e) {
+          console.log(e)
+        })
     },
     customEmit: function (val) {
       console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
     },
     execute: function (val) {
-      console.log(val.response)
-      let delta = new Delta(val.response)
-      // this.innerQuill.setContents(delta)
+      let fetch = []
+
+      val.stack.forEach(item => {
+        item.forEach(action => {
+          if (action.hasOwnProperty('retain') && action.retain > 1) action.retain = action.retain - 1
+          fetch.push(action)
+        })
+      })
+      console.log(fetch)
+      let delta = new Delta(fetch)
+      this.innerQuill.setContents(delta)
+    }
+  },
+  timers: {
+    getRefresh: {
+      time: 20000,
+      autostart: true,
+      repeat: true,
+      immediate: true
     }
   }
 }
