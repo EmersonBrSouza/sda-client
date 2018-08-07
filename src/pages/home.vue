@@ -37,7 +37,7 @@ export default {
   data () {
     return {
       typer: {
-        texts: ['"Uma palavra escrita é semelhante \n a uma pérola."', 'Cuide bem do seu tesouro.\n Use {{ Nome do Aplicativo }}!'],
+        texts: ['"Uma palavra escrita é semelhante \n a uma pérola."', 'Cuide bem do seu tesouro.\n Use TextOn!'],
         showCitation: false,
         showButton: false,
         count: 0

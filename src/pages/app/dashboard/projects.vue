@@ -27,8 +27,7 @@
                         :selected="selectedProject.id == project.id"
                         @click.native="selectProject(project.id)"
                         :title="project.title"
-                        :createdAt="11111111">
-          </project-card>
+                        :createdAt="11111111"/>
         </div>
       </div>
       <project-modal :open="openModal" @close="toggleModal"/>
@@ -38,7 +37,7 @@
 
 <script>
 import AdminLayout from '@/layouts/admin'
-import ProjectCard from '@/components/cards/Project'
+import ProjectCard from '@/components/cards/ProjectCard'
 import ProjectModal from '@/components/admin/modals/ProjectModal'
 import { db } from '@/scripts/firebaseInit'
 import { mapGetters } from 'vuex'

@@ -14,7 +14,9 @@ export default {
       let vm = this
       auth.signOut().then(function () {
         vm.logout()
+        vm.$router.push({ name: 'home' })
       }).catch(function (error) {
+        vm.$router.push({ name: 'home' })
         vm.logout()
         error = null
       })

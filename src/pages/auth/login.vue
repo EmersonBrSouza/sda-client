@@ -22,7 +22,10 @@
                             <router-link :to="{ name: 'password'}" class="is-pulled-left is-primary elegant-link"> Esqueci a minha senha </router-link>
                         </div>
                         <div class="column">
-                            <button class="button is-pulled-right is-primary" @click="login"> Entrar na minha conta </button>
+                            <button class="button is-pulled-right is-primary" @click="login" :disabled = "isLoading">
+                              <b-icon icon="spinner" class="fa-spin" v-if="isLoading"></b-icon>
+                              <span> Entrar na minha conta </span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -41,7 +44,8 @@ export default {
     return {
       email: '',
       password: '',
-      externalErrors: []
+      externalErrors: [],
+      isLoading: false
     }
   },
   computed: {
@@ -89,11 +93,11 @@ export default {
       if (!this.$v.$anyError && this.$v.$anyDirty) {
         let vm = this
         let { email, password } = this.generateCredentials()
-
+        vm.isLoading = true
         auth.signInWithEmailAndPassword(email, password)
           .then(function (response) {
             var user = auth.currentUser
-
+            vm.isLoading = false
             db.collection('users').doc(user.uid).get()
               .then(function (doc) {
                 if (doc.exists) {
@@ -107,6 +111,7 @@ export default {
           })
           .catch(function (error) {
             console.log(error.code)
+            vm.isLoading = false
             switch (error.code) {
               case 'auth/user-not-found':
                 vm.externalErrors = { email: 'Não existe uma conta cadastrada com esse email' }

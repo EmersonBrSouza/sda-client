@@ -22,7 +22,10 @@
                     </b-field>
                 </div>
                 <div class="column is-11">
-                    <button class="button is-pulled-right is-primary" @click="register"> Criar a minha conta! </button>
+                    <button class="button is-pulled-right is-primary" @click="register" :disabled="isLoading">
+                      <b-icon icon="spinner" class="fa-spin" v-if="isLoading"></b-icon>
+                      <span> Criar a minha conta! </span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -40,7 +43,8 @@ export default {
       name: '',
       email: '',
       password: '',
-      externalErrors: []
+      externalErrors: [],
+      isLoading: false
     }
   },
   computed: {
@@ -86,6 +90,7 @@ export default {
       if (!this.$v.$anyError && this.$v.$anyDirty) {
         let vm = this
         let { name, email, password } = this.generateCredentials()
+        this.isLoading = true
 
         auth.createUserWithEmailAndPassword(email, password)
           .then(function (response) {
@@ -97,6 +102,7 @@ export default {
               email: email,
               notifications: []
             }).then(function () {
+              vm.isLoading = false
               vm.fetchUser({user, name, firstLogin: true})
               vm.$router.push({ name: 'login' })
             }).catch(function (error) {
@@ -104,6 +110,7 @@ export default {
             })
           })
           .catch(function (error) {
+            vm.isLoading = false
             switch (error.code) {
               case 'auth/email-already-in-use':
                 vm.externalErrors = { email: 'Já existe uma conta cadastrada com este email.' }

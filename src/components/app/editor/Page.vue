@@ -114,7 +114,7 @@ export default {
       }
     },
     sendRefresh (delta, oldDelta) {
-      this.$socket.emit('commit', { execute: delta, documentID: 'KYwpm2MMRKbkS4ysChSQ', userID: this.getUser.uid })
+      this.$socket.emit('commit', { content: delta, documentID: 'KYwpm2MMRKbkS4ysChSQ', userID: this.getUser.uid })
     },
     getRefresh () {
       this.$socket.emit('pull', '')
@@ -129,7 +129,6 @@ export default {
 
       axios.post('http://localhost:3000/join', credentials)
         .then(function (response) {
-          console.log(response)
           vm.$socket.emit('join', credentials)
         })
         .catch(function (e) {
@@ -141,15 +140,15 @@ export default {
     },
     execute: function (val) {
       let fetch = []
-
-      val.stack.forEach(item => {
-        item.forEach(action => {
-          if (action.hasOwnProperty('retain') && action.retain > 1) action.retain = action.retain - 1
-          fetch.push(action)
-        })
-      })
+      console.log(val)
+      // val.stack.forEach(item => {
+      //   item.forEach(action => {
+      //     if (action.hasOwnProperty('retain') && action.retain > 1) action.retain = action.retain - 1
+      //     fetch.push(action)
+      //   })
+      // })
       console.log(fetch)
-      let delta = new Delta(fetch)
+      let delta = new Delta(val)
       this.innerQuill.setContents(delta)
     }
   },
