@@ -24,10 +24,10 @@
       <div class="column is-12">
         <div class="columns is-multiline">
           <project-card v-for="(project, index) in projects" :key="index"
-                        :selected="selectedProject.id == project.id"
                         @click.native="selectProject(project.id)"
                         :title="project.title"
-                        :createdAt="11111111"/>
+                        :createdAt="11111111"
+                        :redirectTo="project.id"/>
         </div>
       </div>
       <project-modal :open="openModal" @close="toggleModal"/>
