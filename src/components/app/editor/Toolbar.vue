@@ -1,7 +1,7 @@
 <template>
   <div class="toolbar columns dynamic-fix">
     <div class="column is-2-fullhd is-3-desktop">
-      <div class="columns right-line">
+      <div class="columns">
         <div class="column is-6 pr-0">
           <b-field label="Fonte" custom-class="menu-label mb-5">
             <b-select :class="className" v-model="selectedFontIndex" @input="selectFont">
@@ -13,13 +13,17 @@
         </div>
         <div class="column is-6 pl-10">
           <b-field label="Tamanho" custom-class="menu-label mb-5">
-            <b-input type="number" min="1" @blur="selectFontSize" v-model="fontSize"></b-input>
+            <b-select v-model="fontSize" @input="selectFontSize">
+                <option v-for="font in fontSizes" :key="font.index" :value="font.size">
+                  <span > {{ font.size }} </span>
+                </option>
+            </b-select>
           </b-field>
         </div>
       </div>
     </div>
     <div class="column is-3-fullhd is-4-desktop">
-      <div class="columns right-line">
+      <div class="columns">
         <div class="column is-4 pr-0">
           <div class="columns is-multiline">
             <div class="column is-12 pb-0 mb-10">
@@ -113,18 +117,6 @@
             </div>
           </div>
         </div>
-        <div class="column is-1 pl-0">
-          <div class="columns is-multiline">
-            <div class="column is-12 pb-0 pl-0 mb-10">
-              <span class="label menu-label">PDF</span>
-            </div>
-            <div class="column is-12 pt-0 pl-0">
-              <button class="button">
-                <b-icon icon="download"></b-icon>
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -153,7 +145,7 @@ export default {
     className () {
       return this.selectedFont.name.split(' ').join('')
     },
-    ...mapGetters(['fonts', 'selectedFont', 'selectedFontIndex', 'selectedFontSize'])
+    ...mapGetters(['fonts', 'fontSizes', 'selectedFont', 'selectedFontIndex', 'selectedFontSize'])
   },
   methods: {
     selectFont (fontName) {
@@ -162,6 +154,7 @@ export default {
     selectAlign (align) {
       this.align = align
       this.setAlign(align)
+      if (align === 'left') this.setAlign('justify')
     },
     toggle (property) {
       let styles = ['italic', 'bold', 'underline']

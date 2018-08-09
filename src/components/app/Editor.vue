@@ -3,11 +3,10 @@
     <div class="column is-12">
       <toolbar/>
     </div>
-    <div class="column is-12">
+    <div class="column is-12 bg-document">
       <div class="columns mt-10 bg-document">
         <div class="column is-1"></div>
         <div class="column is-10">
-          <div class="toolbar"><button @click="pingServer"> Nova Página </button></div>
           <page v-for="page in pages" :key="page.index" :selected="page.selected" :index="page.index"  @click.native="selectPage(page.index)"/>
         </div>
       </div>
@@ -56,9 +55,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-  .bg-document{
-    background: #EEEEEE;
-  }
-</style>

@@ -27,9 +27,6 @@ export default {
     this.initialize()
   },
   computed: {
-    bottomLimit () {
-      return 1123
-    },
     ...mapGetters(['pages', 'selectedFontFamily', 'selectedFontSize', 'selectedColor', 'bold', 'italic', 'underline', 'selectedAlign', 'getUser'])
   },
   watch: {
@@ -77,18 +74,14 @@ export default {
       let vm = this
 
       quill.on('text-change', function (delta, oldDelta, source) {
-        console.log(source)
         if (source === 'user') {
+          console.log(delta)
           vm.sendRefresh(delta, oldDelta)
-        }
-
-        if (quill.getBounds(quill.getLength()).bottom > vm.bottomLimit) {
-          vm.$parent.$emit('fullPage', { index: this.index })
         }
       })
     },
     configureWhitelists () {
-      Size.whitelist = ['12px']
+      Size.whitelist = ['7px', '8px', '10px', '12px', '14px', '16px', '20px', '24px', '32px', '36px', '48px', '72px']
       Quill.register(Size, true)
 
       Font.whitelist = ['arial', 'bitter', 'catamaran', 'courgette', 'indieflower', 'nunito', 'raleway', 'roboto']
@@ -139,16 +132,13 @@ export default {
       console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
     },
     execute: function (val) {
-      let fetch = []
       console.log(val)
-      // val.stack.forEach(item => {
-      //   item.forEach(action => {
-      //     if (action.hasOwnProperty('retain') && action.retain > 1) action.retain = action.retain - 1
-      //     fetch.push(action)
-      //   })
-      // })
-      console.log(fetch)
-      let delta = new Delta(val)
+      let fetch = []
+      val.forEach(item => {
+        if (!item.hasOwnProperty('retain')) fetch.push(item)
+      })
+      let delta = new Delta(fetch)
+      console.log(delta)
       this.innerQuill.setContents(delta)
     }
   },
@@ -166,8 +156,8 @@ export default {
 <style lang="scss">
   .page{
     max-width: 794px;
-    min-height: 1123px;
-    max-height: 1123px;
+    // min-height: 1123px;
+    // max-height: 1123px;
     border: none;
     margin-left: auto;
     margin-right: auto;
@@ -177,7 +167,7 @@ export default {
     white-space: pre-wrap;
   }
   .ql-editor{
-    min-height: inherit;
+    min-height: 1123px;
   }
   .ql-font-arial { font-family: 'Arial', sans-serif; }
   .ql-font-bitter  { font-family: 'Bitter', serif; }

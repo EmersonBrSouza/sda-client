@@ -10,12 +10,28 @@ var font = [
   { index: 8, name: 'Roboto', fontName: "'Roboto', sans-serif;", selected: false, class: 'roboto' }
 ]
 
+var fontSizes = [
+  { index: 1, size: 7 },
+  { index: 2, size: 8 },
+  { index: 3, size: 10 },
+  { index: 4, size: 12 },
+  { index: 5, size: 14 },
+  { index: 6, size: 16 },
+  { index: 7, size: 20 },
+  { index: 8, size: 24 },
+  { index: 9, size: 32 },
+  { index: 10, size: 36 },
+  { index: 11, size: 48 },
+  { index: 12, size: 72 }
+]
+
 export const pages = {
   state: {
     pages: [ initialPage ],
     fonts: font,
     color: '#000',
     fontSize: '12',
+    fontSizes: fontSizes,
     fontStyle: { italic: false, bold: false, underline: false },
     align: 'left'
   },
@@ -31,7 +47,8 @@ export const pages = {
     bold: state => state.fontStyle.bold,
     italic: state => state.fontStyle.italic,
     underline: state => state.fontStyle.underline,
-    selectedAlign: state => state.align
+    selectedAlign: state => state.align,
+    fontSizes: state => fontSizes
   },
   actions: {
     createPage ({ commit }) {
