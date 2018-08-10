@@ -132,7 +132,6 @@ export default {
       console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
     },
     execute: function (val) {
-      console.log(val)
       let fetch = []
       val.forEach(item => {
         if (!item.hasOwnProperty('retain')) fetch.push(item)
